@@ -1,9 +1,3 @@
-/-
-**************
-TODO FOR EACH SECTION SEPARATE PROPERTIES THAT APPLY TO NETS from PROPERTIES THAT APPLY TO OCCURRENCE NETS
-**************
--/
-
 import PetriNet.Nets
 import PetriNet.MultisetAux
 import Mathlib.Data.Set.Disjoint
@@ -14,9 +8,7 @@ open Relation Relation.TransGen
 open Multiset
 open Sum
 
-
-
-/-
+/-!
 This file provides the definitions and properties necessary to construct a flow
 relationship in a Petri net. Which is necessary to establish occurrence nets.
 
@@ -24,24 +16,27 @@ relationship in a Petri net. Which is necessary to establish occurrence nets.
 Their transitive closure `≺ ` [abr: \pre, \prec] is given by `TransGen`.
 Their reflexo-transitive closure `≼ ` [abr: \prece, \preceq] is given by `ReflTransGen`.
 
-A net (N,m₀) could be think as a tuple (P,T,•N,N•,m₀) and N = P ⊎ T. This is helpful at
-time to defined the flow relationship, because we can have x,y ∈ N with x ≼ y (for
-instance) regardless of whether x and y are the same type or not. This disjoint union
-I write as `places ⊕ transition`.
+A marked net (N, m₀) could be think as a tuple (α, β, •_, _•, m₀).
+This is helpful at time to defined the flow relationship, because we can have x,y ∈ α ⊎ β
+with x ≼ y (for instance) regardless of whether x and y are the same type or not. This
+disjoint union we write as `α ⊕ β`.
 
 ## Notation
 
   * If N is a `Net α β`, and you want to write that x ≺ y, you need to establish whether
   x and y are places or transitions.
   For example, if `x : β` and `y : α`, then x ≺  y is equivalent to
-  `Sum.inr x ≺ Sum.inl y`. It's not necessary that x and y must be of different types,
-  we can have `x y : β` and `Sum.inr x ≺ Sum.inr y`, since is a transitive closure.
+  `inr x ≺⦃N⦄ inl y`. It's not necessary that x and y must be of different types,
+  we can have `x y : β` and `Sum.inr x ≺⦃N⦄ Sum.inr y`, since is a transitive closure.
   Trichotomy is not true over this transitive closure.
-  * If two transitions t₁ and t₂ are in inmediate conflict, we write `t₁ #₀ t₂`.
-  * If x and y are in conflict: `x # y`. This is an extend definition from the inmediate
+  * If two transitions t₁ and t₂ are in inmediate conflict, we write `t₁ #₀⦃N⦄ t₂`.
+  * If x and y are in conflict: `x #⦃N⦄ y`. This is an extend definition from the inmediate
   conflict.
-  * `x co y` is an abreviature of the concurrency between x and y.
-  * `CO X` is an abreviature of ∀ x y ∈  X, x co y.
+  * `x co⦃N⦄ y` is an abreviature of the concurrency between x and y.
+
+## Standard variable for types/general structures
+  * `O : is_occurrence N`, if `N : Net α β`
+  * `MO : is_marked_occurrence M`, if `M : MarkedNet α β`
 -/
 
 
@@ -324,7 +319,7 @@ structure is_occurrence (N : Net α β) where
 structure is_marked_occurrence (M : MarkedNet α β) : Prop where
   occurrence : is_occurrence M.toNet
   initial_set : Nodup M.m₀
-  ininital_minimal : ∀ {x}, x ∈ M.m₀ → x ∈ minimal M.toNet
+  inital_minimal : ∀ {x}, x ∈ M.m₀ → x ∈ minimal M.toNet
 
 lemma causal_irref (O : is_occurrence N) (_ : x ≺⦃N⦄ y) : ¬(x = y) := by
   obtain := O.acyclicity x; intro; simp_all
@@ -870,12 +865,12 @@ lemma minimal_places_concurrent (MO : is_marked_occurrence M) : Concurrent M.toN
   · exact MO.initial_set
   · intro a b ha hb ne
     have ne : (inl (β := β) a) ≠ (inl  b) := by simp_all [inl.injEq]
-    obtain := not_cause_of_minimal (MO.ininital_minimal ha) (ne_comm.mp ne)
-    obtain := not_cause_of_minimal (MO.ininital_minimal hb)  ne
+    obtain := not_cause_of_minimal (MO.inital_minimal ha) (ne_comm.mp ne)
+    obtain := not_cause_of_minimal (MO.inital_minimal hb)  ne
     simp_all [concurrent, conflict]
     intros c
     have : ¬ inr c = inl a → ¬ inr c ≼⦃M⦄ inl a := by
-      exact not_cause_of_minimal (MO.ininital_minimal ha)
+      exact not_cause_of_minimal (MO.inital_minimal ha)
     simp_all
 
 theorem occ_net_safe (MO : is_marked_occurrence M) : safe M := by

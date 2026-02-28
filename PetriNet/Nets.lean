@@ -23,8 +23,10 @@ net, where m₀ is the initial multiset.
   * `m₁〚ts⟩⟩⦃N⦄ m₂ : Prop` is an abreviature if there are sequences of multisets `m₀,m₁,...,mₙ`
   and a list of transitions `ts = [t₁,t₂,...,tₙ]` which `mᵢ₋₁〚enᵢ⟩⦃N⦄ mᵢ` for each i = 1,...,n.
 
-## Note
-  [symbol `TeX-code` ] is a list of main TeX-symbol abreviature in Lean used in each file.
+## Standard variable for types
+  * `N : Net α β`
+  * `M : MarkedNet α β`
+
 -/
 
 universe u v

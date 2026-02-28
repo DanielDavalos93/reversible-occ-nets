@@ -2,6 +2,13 @@ import PetriNet.Occurrence
 open Nets
 open Multiset
 
+/-!
+## Standard variable for types/general structures
+  * `R : Reversible α β`
+  * `RO : ReversibleOccurrence α β`
+  * `MO : MarkedReversibleOccurrence α β`
+-/
+
 variable {α β : Type}
 
 namespace ReversibleNet
