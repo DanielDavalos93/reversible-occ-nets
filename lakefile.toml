@@ -1,0 +1,12 @@
+name = "petri_net"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["PetriNet"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.22.0"
+
+[[lean_lib]]
+name = "PetriNet"
