@@ -1,5 +1,5 @@
 import PetriNet.Equivalence
-import PetriNet.ReversibleOcc
+import PetriNet.ReversibleOccurrence
 open TrEq
 open Nets
 open ReversibleNet

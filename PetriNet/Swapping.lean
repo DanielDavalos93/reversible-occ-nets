@@ -1,6 +1,5 @@
-import PetriNet.ReversibleOcc
+import PetriNet.ReversibleOccurrence
 import PetriNet.MultisetAux
-import PetriNet.Occurrence
 
 open Nets ReversibleNet ReversibleOcc
 open Multiset

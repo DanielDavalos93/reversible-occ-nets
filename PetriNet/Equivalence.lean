@@ -1,4 +1,4 @@
-import PetriNet.ReversibleOcc
+import PetriNet.ReversibleOccurrence
 import PetriNet.Swapping
 open ReversibleOcc
 
