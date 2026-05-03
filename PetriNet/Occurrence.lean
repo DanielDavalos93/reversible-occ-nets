@@ -161,7 +161,7 @@ def preorder (N : Net α β) : (α ⊕ β) → (α ⊕ β) → Prop :=
 notation:65 l:65 " ≼⦃" N "⦄ " r:66  => preorder ↑N l r
 
 lemma preorder_ref (x : α ⊕ β) : x ≼⦃N⦄ x := by
-  unfold preorder; simp [IsRefl.refl]
+  unfold preorder; simp [Std.Refl.refl]
 
 lemma preorder_trans (h1 : x ≼⦃N⦄ y) (h2 : y ≼⦃N⦄ z) : x ≼⦃N⦄ z := by
   simp_all [preorder]; exact IsTrans.trans x y z h1 h2
@@ -446,7 +446,7 @@ lemma no_causal_of_mem_prea (O : is_occurrence N) (ha : inl a ≺⦃N⦄ inl b) 
   cases ha using Relation.TransGen.head_induction_on with
   | @ single x i =>
     have h := not_exists_inl_gt_inl (N := N) a
-    push_neg at h
+    push Not at h
     exact absurd i (h b)
   | @head x y h1 h2 _ =>
     obtain ⟨t', th⟩ := exists_eq_inr_of_gt_inr (N := N) h1
@@ -479,7 +479,7 @@ lemma no_conflicts_on_postset (O : is_occurrence N) (ha : a ∈ t•⦃N⦄) (hb
 lemma no_self_conflict (O : is_occurrence N) : ¬ x #⦃N⦄ x := by
   cases x with
   | inl a =>
-    unfold conflict; push_neg; intros t t' tFa t'Fa; simp_all
+    unfold conflict; push Not; intros t t' tFa t'Fa; simp_all
     cases tFa with
     | single h =>
       obtain := causal_init O t'Fa h

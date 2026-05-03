@@ -130,9 +130,11 @@ lemma TrEq_swap_fwd_allbwd (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m) (ft : ▷t) (abw : ◁◁s)
     (hnr : t ∉ʳ s) (fs : m 〚([t] ++ s)⟩⟩⦃MO⦄ m') :
     ([t] ++ s) ≍⦃MO.toReversible⦄ (s ++ [t]) := by
-  induction' s  with hd s ih generalizing m m'
-  · simp_all [List.append_nil]; exact TrEq_refl [t]
-  · obtain i : ¬ t ↽⇀ hd := hnr hd List.mem_cons_self
+  induction s generalizing m m'
+  case nil =>
+   simp_all [List.append_nil]; exact TrEq_refl [t]
+  case cons hd s ih =>
+    obtain i : ¬ t ↽⇀ hd := hnr hd List.mem_cons_self
     obtain fs' := TrEq_swap_exists MO rr ft abw.left i fs
     obtain ⟨m₁, fs₂, fs₃⟩ := append_split_of_fs (ts₁ := [hd]) fs'
     have reach₁ :  m₁ ∈ reachable ⟨MO.toNet, MO.m₀⟩ := by

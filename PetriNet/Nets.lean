@@ -180,7 +180,7 @@ def marking_after_firing (N : Net α β) (m : Multiset α) (_ : m 〚t〛⦃N⦄
 
 --Example enabled
 def t₁_enabled : {a, b, c}〚t₁〛⦃N₁⦄ := by
-  unfold is_enabled presetₜ Net.pre N₁ pre; simp [cons_le_cons]
+  unfold is_enabled presetₜ Net.pre N₁ pre; simp
 
 def t₂_enabled : {a, b, c}〚t₂〛⦃N₁⦄ := by
   unfold is_enabled presetₜ Net.pre N₁ pre

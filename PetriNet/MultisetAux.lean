@@ -18,7 +18,7 @@ theorem cons_sub_of_not_mem [DecidableEq α] (s : Multiset α) (h : a ∉ t) :
   | h s t => simp_all [List.cons_diff_of_not_mem h]
 
 lemma disjoint_sub_add_comm [DecidableEq α] (h : Disjoint t u) : s + t - u = s - u + t := by
-    induction' t using Multiset.induction_on with a t' h <;> simp_all
+    induction t using Multiset.induction_on <;> simp_all
 
 lemma disjoint_sub_add_sub_add_comm {m b a d c : Multiset α} [DecidableEq α]
   (d₁ : Disjoint b c) (d₂ : Disjoint d a) : m - c + d - a + b = m - a + b - c + d := by
@@ -27,9 +27,10 @@ lemma disjoint_sub_add_sub_add_comm {m b a d c : Multiset α} [DecidableEq α]
      Multiset.add_assoc, Multiset.add_comm d b, Multiset.add_assoc]
 
 lemma le_of_le_add_of_disjoint [DecidableEq α] (d : Disjoint s u) (h : s ≤ t + u) : s ≤ t := by
-  induction' u using Multiset.induction_on with a
-  · simp_all
-  · obtain := erase_le_erase a h; simp_all
+  induction u using Multiset.induction_on --with a
+  case empty => simp_all
+  case cons a _ _ =>
+    obtain := erase_le_erase a h; simp_all
 
 lemma le_of_mem [DecidableEq α] (h : a ∈ m) (n : Multiset α) : ({a} + n)  ≤ m + n := by
   apply (le_iff_count).mpr
