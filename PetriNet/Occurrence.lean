@@ -152,7 +152,6 @@ lemma causal_of_lt (i : x <⦃N⦄ y) : (x ≺⦃N⦄ y) := by
 
 end Causal
 
-
 section Preorder
 
 def preorder (N : Net α β) : (α ⊕ β) → (α ⊕ β) → Prop :=

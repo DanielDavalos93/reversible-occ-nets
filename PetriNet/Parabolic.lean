@@ -11,6 +11,27 @@ variable {α β : Type} [DecidableEq α] {RO : ReversibleOccurrence α β}
 
 section Properties_for_parabolic
 
+lemma square (MO : MarkedReversibleOccurrence α β)
+    (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)
+    (h1 : m 〚t₁〛⦃MO.toNet⦄) (h2 : m 〚t₂〛⦃MO.toNet⦄)
+    (d : Disjoint (•⦃MO.toNet⦄ t₁) (•⦃MO.toNet⦄ t₂)) :
+  ∃ m', (m 〚[t₁, t₂]⟩⟩⦃MO.toNet⦄ m' ∧ m 〚[t₂, t₁]⟩⟩⦃MO.toNet⦄ m') := by
+  have sa := reversible_occ_net_safe MO m rr
+  simp_all [←Multiset.inter_eq_zero_iff_disjoint]
+  have ⟨m1, h⟩ : ∃ m1, m = m1 + (•⦃MO.toNet⦄ t₁) +  (•⦃MO.toNet⦄ t₂):= by
+    sorry
+  exists m1 + (t₁•⦃MO.toNet⦄) +  (t₂•⦃MO.toNet⦄)
+  constructor
+  · apply firing_sequence.step (m' := m1 + (t₁•⦃MO.toNet⦄) +  (•⦃MO.toNet⦄t₂)) h1
+    · unfold is_firing marking_after_firing;
+      subst m
+      sorry
+    · sorry
+  · apply firing_sequence.step h2
+    · sorry
+    · sorry
+    · sorry
+
 open List
 lemma and_canc_fs (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)
