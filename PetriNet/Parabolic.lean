@@ -11,36 +11,6 @@ variable {α β : Type} [DecidableEq α] {RO : ReversibleOccurrence α β}
 
 section Properties_for_parabolic
 
-lemma square (MO : MarkedReversibleOccurrence α β)
-    (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)
-    {h1 : m 〚t₁〛⦃MO.toNet⦄}{h2 : m 〚t₂〛⦃MO.toNet⦄}
-    (h1' : m 〚h1⟩⦃MO.toNet⦄ m1) (h2' : m 〚h2⟩⦃MO.toNet⦄ m2)
-    (d: Disjoint (•⦃MO.toNet⦄ t₁) (•⦃MO.toNet⦄ t₂)) :
-    ∃ (e1 : m1 〚t₂〛⦃MO.toNet⦄), ∃ (e2 : m2 〚t₁〛⦃MO.toNet⦄),
-    ∃ m', (m1 〚e1⟩⦃MO.toNet⦄ m' ∧ m2 〚e2⟩⦃MO.toNet⦄ m') := by
-  unfold is_enabled is_firing marking_after_firing at *
-  subst m2 m1
-  have sa := reversible_occ_net_safe MO m rr
-  have en1: (•⦃MO.toNet⦄ t₂) ≤ m - •⦃MO.toNet⦄ t₁ + t₁•⦃MO.toNet⦄ := by
-    have h_sub : (•⦃MO.toNet⦄ t₂)  ≤ m - (•⦃MO.toNet⦄ t₁) := by
-      exact disjoint_le_sub h2 (Disjoint.symm d)
-    exact le_trans h_sub (Multiset.le_add_right _ _)
-  have en2: (•⦃MO.toNet⦄ t₁) ≤ m - •⦃MO.toNet⦄ t₂ + t₂•⦃MO.toNet⦄ := by
-    have h_sub : (•⦃MO.toNet⦄ t₁)  ≤ m - (•⦃MO.toNet⦄ t₂) := by
-      exact disjoint_le_sub h1 d
-    exact le_trans h_sub (Multiset.le_add_right _ _)
-  exists en1, en2, m - •⦃↑MO.toNet⦄t₁ + t₁•⦃↑MO.toNet⦄ - •⦃↑MO.toNet⦄t₂ + t₂•⦃↑MO.toNet⦄
-  simp
-  rw [Multiset.ext, Multiset.le_iff_count] at *
-  intro x
-  obtain a := Multiset.disjoint_left.mp d
-  by_cases h : x ∈ (•⦃MO.toNet⦄ t₁)
-  · specialize a h
-    simp_all
-    grind
-  · simp_all
-    grind
-
 open List
 lemma and_canc_fs (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)
