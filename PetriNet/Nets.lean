@@ -395,8 +395,7 @@ lemma square (N : Net α β)
     {e₁ : m 〚t₁〛⦃N⦄} {e₂ : m 〚t₂〛⦃N⦄}
     (_ : m 〚e₁⟩⦃N⦄ m1) (_ : m 〚e₂⟩⦃N⦄ m2)
     (d : Disjoint (•⦃N⦄ t₁) (•⦃N⦄ t₂)) :
-    ∃ (e1 : m1 〚t₂〛⦃N⦄), ∃ (e2 : m2 〚t₁〛⦃N⦄),
-    ∃ m', (m1 〚e1⟩⦃N⦄ m' ∧ m2 〚e2⟩⦃N⦄ m') := by
+  ∃ (e1 : m1 〚t₂〛⦃N⦄), ∃ (e2 : m2 〚t₁〛⦃N⦄), ∃ m', (m1 〚e1⟩⦃N⦄ m' ∧ m2 〚e2⟩⦃N⦄ m') := by
   unfold is_enabled is_firing marking_after_firing at *
   subst m2 m1
   have en1: (•⦃N⦄ t₂) ≤ m - •⦃N⦄ t₁ + t₁•⦃N⦄ := by
