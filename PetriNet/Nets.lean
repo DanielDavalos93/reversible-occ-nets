@@ -2,6 +2,7 @@ import Mathlib.Data.Set.Basic
 import Mathlib.Data.Rel
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Multiset.Basic
+import PetriNet.MultisetAux
 open Multiset
 
 /-!
@@ -388,6 +389,35 @@ open Pl Tr
 def M₁ : MarkedNet Pl Tr :=  ⟨N₁, {a,b,c}⟩
 
 def M₂ : MarkedNet ℕ Tr₂ := ⟨N₂, {1,2,3}⟩
+variable {t₁ t₂ : β} {m1 m2 : Multiset α}
+
+lemma square' (N : Net α β)
+    {e₁ : m 〚t₁〛⦃N⦄} {e₂ : m 〚t₂〛⦃N⦄}
+    (_ : m 〚e₁⟩⦃N⦄ m1) (_ : m 〚e₂⟩⦃N⦄ m2)
+    (d : Disjoint (•⦃N⦄ t₁) (•⦃N⦄ t₂)) :
+    ∃ (e1 : m1 〚t₂〛⦃N⦄), ∃ (e2 : m2 〚t₁〛⦃N⦄),
+    ∃ m', (m1 〚e1⟩⦃N⦄ m' ∧ m2 〚e2⟩⦃N⦄ m') := by
+  unfold is_enabled is_firing marking_after_firing at *
+  subst m2 m1
+  have en1: (•⦃N⦄ t₂) ≤ m - •⦃N⦄ t₁ + t₁•⦃N⦄ := by
+    have h_sub : (•⦃N⦄ t₂)  ≤ m - (•⦃N⦄ t₁) := by
+      exact disjoint_le_sub e₂ (Disjoint.symm d)
+    exact le_trans h_sub (Multiset.le_add_right _ _)
+  have en2: (•⦃N⦄ t₁) ≤ m - •⦃N⦄ t₂ + t₂•⦃N⦄ := by
+    have h_sub : (•⦃N⦄ t₁)  ≤ m - (•⦃N⦄ t₂) := by
+      exact disjoint_le_sub e₁ d
+    exact le_trans h_sub (Multiset.le_add_right _ _)
+  exists en1, en2, m - •⦃N⦄t₁ + t₁•⦃N⦄ - •⦃N⦄t₂ + t₂•⦃N⦄
+  simp
+  rw [Multiset.ext, Multiset.le_iff_count] at *
+  intro x
+  obtain a := Multiset.disjoint_left.mp d
+  by_cases h : x ∈ (•⦃N⦄ t₁)
+  · specialize a h
+    simp_all
+    grind
+  · simp_all
+    grind
 
 end ExampleMarkedNet
 end Nets
