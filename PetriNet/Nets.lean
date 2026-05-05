@@ -391,7 +391,7 @@ def M₁ : MarkedNet Pl Tr :=  ⟨N₁, {a,b,c}⟩
 def M₂ : MarkedNet ℕ Tr₂ := ⟨N₂, {1,2,3}⟩
 variable {t₁ t₂ : β} {m1 m2 : Multiset α}
 
-lemma square' (N : Net α β)
+lemma square (N : Net α β)
     {e₁ : m 〚t₁〛⦃N⦄} {e₂ : m 〚t₂〛⦃N⦄}
     (_ : m 〚e₁⟩⦃N⦄ m1) (_ : m 〚e₂⟩⦃N⦄ m2)
     (d : Disjoint (•⦃N⦄ t₁) (•⦃N⦄ t₂)) :
