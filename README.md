@@ -2,7 +2,9 @@
 
 `Lean version`: [v4.29.1](https://github.com/leanprover/lean4/tree/v4.29.1).
 
-A proof mechanisation of reversible PT nets.
+This repository contains a full formalization of reversible ocurrence nets in Lean Prover. The organizational structure of the library's files is given by the next graph:
+
+<img width="1507" height="515" alt="library_distribution" src="https://github.com/user-attachments/assets/a3e5f095-07c1-4290-9957-e6143021502d" />
 
 ## Install and usage
 
