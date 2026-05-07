@@ -6,6 +6,12 @@ This repository contains a full formalization of reversible ocurrence nets in Le
 
 <img width="1507" height="515" alt="library_distribution" src="https://github.com/user-attachments/assets/a3e5f095-07c1-4290-9957-e6143021502d" />
 
+Futhermore, some of the main definitions, lemmas and theorems dependents to each other over these files are given by:
+
+![dependency_graph](https://raw.githubusercontent.com/DanielDavalos93/reversible-occ-nets/9ce337a8a0bd97d50884cec9bf05a1282e279a01/dependencies_graph.svg)
+
+where in white are the definitions, in oranges the lemmas, and in green the theorems.
+
 ## Install and usage
 
 This repository use the [Mathlib4](https://github.com/leanprover-community/mathlib4) library. So, you need to [install](https://leanprover-community.github.io/get_started.html) **elan**, **lake** and **lean** (and whichever you prefer: [vscode](https://github.com/leanprover/vscode-lean4), [emacs](https://github.com/leanprover-community/lean4-mode) or [neovim](https://github.com/Julian/lean.nvim/)). 
