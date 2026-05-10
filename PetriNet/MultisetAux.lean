@@ -1,8 +1,12 @@
-import Mathlib.Data.Multiset.UnionInter
-import Mathlib.Data.Multiset.AddSub
-import Mathlib.Data.Multiset.Defs
-import Mathlib.Data.Multiset.Basic
-import Mathlib.Data.Finset.Basic
+module
+
+public import Mathlib.Data.Multiset.UnionInter
+public import Mathlib.Data.Multiset.AddSub
+public import Mathlib.Data.Multiset.Defs
+public import Mathlib.Data.Multiset.Basic
+public import Mathlib.Data.Finset.Basic
+
+public section
 
 open Multiset
 variable {α β : Type} {s t u m n : Multiset α} {a b : α}
