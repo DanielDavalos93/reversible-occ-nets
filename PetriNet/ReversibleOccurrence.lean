@@ -257,8 +257,7 @@ variable {m m' : Multiset α}
 @[blueprint "thm:inverse_enabled_after_firing"
  (statement := /-- For a reversible net $R$, if $m [[t]]$ and $m [[t⟩ m'$ then there is a transition $t'$, which $t' ↽⇀ t$ and $m'[[t']]$.-/)
  (hasProof := false)
- (proofUses := ["lem:inverse"])
-]
+ (uses := ["def:Reversible"])]
 theorem inverse_enabled_after_firing (e : m 〚t〛⦃R⦄) (f : m 〚e⟩⦃R.toNet⦄ m') :
     ∃ t', t' ↽⇀ t ∧ m'〚t'〛⦃R⦄ := by
   exists (↽t)

@@ -27,7 +27,8 @@ For a reversible net `R` we denote this relation as `t ≍⦃R⦄ t'`.
   \item[(i)] $t;t' ≍  t';t$ if $t \textsf{ co } t'$, 
   \item[(ii)] $t;↽ t ≍  ε$, and 
   \item[(iii)] $↽ t;t ≍ ε$. 
-\end{itemize}-/)]
+\end{itemize}-/)
+ (uses := ["def:Reversible"])]
 inductive TrEq [DecidableEq α] (R : Reversible α β) :
   List (Transition β) → List (Transition β) → Prop
 | nil :
