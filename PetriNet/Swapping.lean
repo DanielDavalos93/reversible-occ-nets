@@ -273,7 +273,7 @@ a firing sequence that passes through the sequence `t :: ω`
  (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $s$ a sequence and $t$ a transition with the condition $◁ ◁ s$ and $▷t$.
  If $M ↝ m₀$, $t ∉ s$ and $m[[t;s⟫ m'$ is a firing sequence, then we can have the swapped between the transition and all the backward sequence: $m [[s;t⟫ m'$. -/)
  (hasProof := false)
- (proofUses := ["lem:swap_fwd_reverse_not_inverse", "lem:reach_after_firing_from_reach", "lem:concat_fs"])
+ (proofUses := ["lem:swap_fwd_reverse_not_inverse", "lem:concat_fs"])
  (latexEnv := "lemma")]
 lemma swapping (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)
