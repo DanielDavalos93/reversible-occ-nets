@@ -165,7 +165,9 @@ theorem inverse_irrefl (t : Transition β) : ¬ t↽⇀t := by
 
 variable {t t' t'' : Transition β}
 
-@[simp] theorem inverse_symm : t ↽⇀ t' ↔ t' ↽⇀ t := by
+@[simp, blueprint "lem:inverse_symm"
+ (hasProof := false)
+] theorem inverse_symm : t ↽⇀ t' ↔ t' ↽⇀ t := by
   simp_all [inverse, reverse, opposite]
   constructor <;>
   rcases t with ⟨_, _ | _⟩ <;>
@@ -336,6 +338,10 @@ instance {α β : Type} : Coe (ReversibleOccurrence α β) (Net  α (Transition 
 
 attribute [coe] ReversibleOccurrence.toReversible
 
+@[blueprint "def:MarkedReversibleOccurrence"
+ (title := /-- Marked reversible occurrence net -/)
+ (statement := /-- A tuple $MO = (R,m₀)$ is \emph{marked reversible occurrence} if $R$ is a reversible net and $(\textsf{fwd_subnet } R,m₀)$ is marked occurrence, where $\textsf{fwd_subnet}$ returns the forward subnet of a reversing net.-/)
+ (latexEnv := "definition")]
 structure MarkedReversibleOccurrence α β extends Reversible α β where
   m₀ : Multiset α
   isFwdMarkedOcurrence : is_marked_occurrence ⟨fwd_subnet toNet, m₀⟩
