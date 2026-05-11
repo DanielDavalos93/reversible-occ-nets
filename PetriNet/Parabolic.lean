@@ -69,8 +69,10 @@ lemma concat_canc_firing_sequence (MO : MarkedReversibleOccurrence α β)
 
 --Forward case for the head of the list of transitions `s` in parabolic
 @[blueprint "lem:parabolic_step_fwd"
+ (statement := /-- Step of forward case for parabolic. -/)
  (proofUses := ["lem:concat_fs", "lem:swapping"])
- (hasProof := false)]
+ (hasProof := false)
+ (latexEnv := "lemma")]
 lemma parabolic_step_fwd (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m) {eₜ : m 〚t〛⦃MO⦄}
     (fₜ : m 〚eₜ⟩⦃MO.toNet⦄ m'')
