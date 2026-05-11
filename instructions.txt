@@ -1,0 +1,92 @@
+How to Use This Repository (Lean + Lake)
+
+####################################
+
+This repository contains:
+
+PetriNet/*.lean → Source code directory
+
+lakefile.toml → Lake build configuration file
+
+lean-toolchain → Lean version we use
+
+The project is built using Lean 4 and its build tool Lake.
+
+1. Install Lean (includes Lake)
+
+Lean is installed using elan, the Lean version manager.
+
+### Linux / macOS
+
+Open a terminal and run:
+
+curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
+
+Restart your terminal after installation.
+
+### Windows
+
+Download the installer from:
+https://github.com/leanprover/elan/releases/latest
+
+Run the installer.
+
+Restart your terminal (PowerShell or CMD).
+
+#############################
+
+Run:
+
+elan toolchain install leanprover/lean4:4.22.0
+elan default leanprover/lean4:4.22.0
+
+2. Build the Project
+
+Inside the root folder (where lakefile.toml is located), run:
+
+lake update
+
+This will compile everything inside the PetriNet/ directory.
+
+3. Open the Project in VS Code (Recommended)
+
+Install Visual Studio Code
+
+Install the Lean 4 extension from the VS Code marketplace
+
+Open the repository folder in VS Code
+
+The Lean extension will automatically detect lakefile.toml and load the project.
+
+4. Project Structure
+.
+├── lakefile.toml
+├── PetriNet.lean
+└── PetriNet/
+    ├─── Nets.lean 
+    ├─── MultisetAux.lean
+    ├─── Occurrence.lean
+    ├─── ReversibleOcc.lean
+    ├─── Equivalence.lean
+    ├─── Swapping.lean
+    └─── Parabolic.lean
+
+lakefile.toml defines how the project is built
+
+5. Troubleshooting
+
+If lake build fails: Make sure Lean is correctly installed (lean --version)
+
+Try updating Lean:
+
+elan update
+
+Then rebuild:
+
+lake build
+
+6. Notes
+
+This project requires Lean 4.
+Do not move lakefile.toml outside the root directory.
+Always run lake commands from the root folder.

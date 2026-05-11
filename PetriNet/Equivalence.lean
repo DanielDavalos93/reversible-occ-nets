@@ -1,11 +1,17 @@
-import PetriNet.ReversibleOccurrence
-import PetriNet.Swapping
+module
+
+public import PetriNet.ReversibleOccurrence
+public import PetriNet.Swapping
+import Architect
+
 open ReversibleOcc
 
 variable {α β : Type} [DecidableEq α]
 
 open Nets
 open ReversibleNet
+
+@[expose] public section
 
 /-- ## Trace equivalence
 A **trace equivalence** is a equivalence relation `≍` [`\asymp`] if satisfies:
@@ -14,7 +20,14 @@ A **trace equivalence** is a equivalence relation `≍` [`\asymp`] if satisfies:
 
 For a reversible net `R` we denote this relation as `t ≍⦃R⦄ t'`.
 -/
-
+@[blueprint "def:TrEq"
+ (title := /-- Transition equivalence -/)
+ (statement := /-- The statement of the lemma requires a formal notion of \emph{equivalent firing sequences}, which is the smallest congruence\footnote{A relation $R$ over sequences is a \textbf{congruence} if it is an equivalence relation closed by concatenation, i.e.,  $s_1 R s_2$ and $s_3 R s_4$ implies $s_1;s_2 R s_2;s_4$ for all $s_1, s_2, s_3$ and $s_4$.} $\asymp$ on transition sequences closed under the following rules:
+\begin{itemize}
+  \item[(i)] $t;t' ≍  t';t$ if $t \textsf{ co } t'$, 
+  \item[(ii)] $t;↽ t ≍  ε$, and 
+  \item[(iii)] $↽ t;t ≍ ε$. 
+\end{itemize}-/)]
 inductive TrEq [DecidableEq α] (R : Reversible α β) :
   List (Transition β) → List (Transition β) → Prop
 | nil :
@@ -51,6 +64,8 @@ example : [(t₁, bwd), ↽(t₁, bwd)] ≍⦃R₁⦄ [] := by
 
 variable {R : Reversible α β}
 
+@[blueprint "lem:TrEq_refl"
+ (statement := /-- $s ≍ s$. -/)]
 def TrEq_refl (s : List (Transition β)) : s ≍⦃R⦄ s := by
   induction s with
   | nil => exact nil
@@ -59,6 +74,8 @@ def TrEq_refl (s : List (Transition β)) : s ≍⦃R⦄ s := by
 
 variable {s s₁ s₂ s₃ s₄ : List (Transition β)}
 
+@[blueprint "lem:TrEq_symm"
+ (statement := /-- $s₁ ≍ s₂ \Longrightarrow s₂ ≍ s₁$. -/)]
 def TrEq_symm (h : s₁ ≍⦃R⦄ s₂) : s₂ ≍⦃R⦄ s₁ := by
   induction h with
   | nil => exact nil
@@ -69,9 +86,14 @@ def TrEq_symm (h : s₁ ≍⦃R⦄ s₂) : s₂ ≍⦃R⦄ s₁ := by
   | congᵣ s₁ s₂ s₃ _ ih => exact congᵣ s₂ s₁  s₃ ih
   | trans s₁ s₂ s₃ _ _ ih1 ih2 => exact trans s₃ s₂ s₁  ih2 ih1;
 
+@[blueprint "lem:TrEq_trans"
+ (statement := /-- $s₁ ≍ s₂ ∧ s₂ ≍ s₃ \Longrightarrow s₁ ≍ s₃$. -/ )]
 def TrEq_trans (h : s₁ ≍⦃R⦄ s₂) (h' : s₂ ≍⦃R⦄ s₃) : s₁ ≍⦃R⦄ s₃ :=
   trans s₁ s₂ s₃ h h'
 
+@[blueprint "lem:TrEq_congruence"
+ (statement := /-- $ s₁ ≍ s₂ ∧  s₃ ≍ s₄ \Longrightarrow s₁; s₃ ≍ s₂ ; s₄ $. -/)
+ (proof := /-- By cases over the structural definition \ref{def:TrEq}. -/)]
 lemma TrEq_congruence (h : s₁ ≍⦃R⦄ s₂) (h' : s₃ ≍⦃R⦄ s₄) : s₁ ++ s₃ ≍⦃R⦄ s₂ ++ s₄ := by
   induction h with
   | nil => simp; exact h'

@@ -1,12 +1,17 @@
-import PetriNet.Nets
-import PetriNet.MultisetAux
-import Mathlib.Data.Set.Disjoint
-import Mathlib.Logic.Relation
-import Mathlib.Data.Multiset.Basic
+module
+
+public import PetriNet.Nets
+public import PetriNet.MultisetAux
+public import Mathlib.Data.Set.Disjoint
+public import Mathlib.Logic.Relation
+public import Mathlib.Data.Multiset.Basic
+import Architect
 open Nets
 open Relation Relation.TransGen
 open Multiset
 open Sum
+
+@[expose] public section
 
 /-!
 This file provides the definitions and properties necessary to construct a flow
@@ -577,11 +582,15 @@ lemma concurrent_from_same_preset (O : is_occurrence N)
   simp_all [ne_comm, conflict, immediate_conflict]
   intro t1 ht1 t2 ht2 neq
   contrapose! nself
-  refine ⟨t1, ?_, ⟨t2, ⟨?_,⟨neq, nself⟩⟩⟩⟩
-  · right
-    exact .trans ht1 ha
-  · right
-    exact .trans ht2 hb
+  intro hc
+  exists t1
+  constructor
+  · exact .trans ht1 ha
+  · intro tneq
+    exists t2
+    constructor 
+    · exact .trans ht2 hb 
+    · exact Classical.not_imp.mp fun a => nself (a neq) 
 
 lemma concurrent_from_same_postset (O : is_occurrence N)
     (ne : a ≠ b) (ha : a ∈ t•⦃N⦄) (hb : b ∈ t•⦃N⦄) : inl a co⦃N⦄ inl b := by

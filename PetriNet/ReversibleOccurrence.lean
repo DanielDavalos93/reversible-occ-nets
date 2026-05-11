@@ -1,6 +1,11 @@
-import PetriNet.Occurrence
+module
+
+public import PetriNet.Occurrence
+import Architect
 open Nets
 open Multiset
+
+@[expose] public section
 
 /-!
 ## Standard variable for types/general structures
@@ -16,6 +21,11 @@ namespace ReversibleNet
 /-- `TransitionType` indicates the direction of a transition in a reversible net, which
 can be forward or backward in a net.
 -/
+@[blueprint "def:TransitionType"
+ (title := /-- Transition Type -/)
+ (statement := /-- Lets define the type \textsf{Transition $::=$ fwd | bwd}, where their elements are the forward direction for $\mathsf{fwd}$ and backward direction for $\mathsf{bwd}$. 
+ Given a type for transition $\beta$, we define the set of reversible transitions as pairs $t_r ::= ⟨t,\mathsf{fwd}⟩ \mid ⟨t,\mathsf{bwd}⟩$ with $t ∈ β $. -/)
+ (latexEnv := "definition")]
 inductive TransitionType
 | fwd : TransitionType
 | bwd : TransitionType
@@ -35,8 +45,14 @@ variable {tt tt' : TransitionType}
 
 abbrev Transition (β : Type) :=  β × TransitionType
 
+@[blueprint "def:isFwd"
+ (statement := /-- For $b∈ β$, we'll say that a \emph{transition $t=(b,\mathsf{fwd})$ is forward} and let's denote it as $▷t$. -/)
+ (uses := ["def:TransitionType"])]
 def isFwd (t : Transition β) : Prop := t.snd = fwd
 
+@[blueprint "def:isBwd"
+ (statement := /-- For $b∈ β$, we'll say that a \emph{transition $t=(b,\mathsf{bwd})$ is backward} and let's denote it as $◁t$. -/)
+ (uses := ["def:TransitionType"])]
 def isBwd (t : Transition β) : Prop := t.snd = bwd
 
 prefix:50 "▷" => isFwd
@@ -57,12 +73,18 @@ prefix:max "↽" => reverse
 -- ## All backward and all forward
 /-- `all_forward` states that all elements in the list are forward.
 -/
+@[blueprint "def:all_forward"
+ (statement := /-- Let $s$ a sequence of transitions with types $β × \mathsf{Transition}$. We denote $▷\!▷ s$ if forall $t∈ s$, $▷t$; or if $s=ε$. -/)
+ (uses := ["def:isFwd"])]
 def all_forward : (l : List (Transition β)) → Prop
   | []       =>  true
   | (h :: t) => ▷h ∧ all_forward t
 
 /-- `all_backward` states that all elements in the list are backward.
 -/
+@[blueprint "def:all_backward"
+ (statement := /-- Let $s$ a sequence of transitions with types $β × \mathsf{Transition}$. We denote $◁ \!◁ s$ if forall $t∈ s$, $◁ t$; or if $s=ε$. -/)
+ (uses := ["def:isBwd"])]
 def all_backward : (l : List (Transition β)) → Prop
   | []       =>  true
   | (h :: t) => ◁h ∧ all_backward t
@@ -159,7 +181,19 @@ lemma neq_of_not_inverse (_ : ¬t ↽⇀ t') : ¬(↽t = ↽↽t') := by
 /-- ### Reversible
 For each `t, t' ∈  Transition β` then `•t = t'•` if `t` and `t'` are reversing.
 -/
-@[ext]
+@[ext, blueprint "def:Reversible"
+ (title := /-- Reversing occurrence nets -/)
+ (statement := /--   A \emph{reversible occurrence net} is a net
+  \(
+    N=(α, β \uplus \{↽ t \mid t∈ β\},•{\_},{\_}•)
+  \)
+  defined by the following conditions:
+  \begin{enumerate}
+  \item    $(α, β, (•{\_})_{|β}, ({\_}•)_{|β}$ is an occurrence net, where
+    $f_{|β}$ denotes the restriction of the function $f$ to the
+    domain $β$.
+  \item For every $t \in β$, $• t = (↽{t})•$ and $t• = •(↽ t)$.
+  \end{enumerate} -/)]
 structure Reversible (α : Type) (β : Type) extends Net α (Transition β) where
   welldef (t t' : Transition β) : t ↽⇀ t' → •⦃toNet⦄ t = t'•⦃toNet⦄
 
@@ -218,6 +252,11 @@ lemma mem_post_of_mem_post (ft : ▷t) (h : a ∈ t•⦃R.toNet⦄) :
 variable [DecidableEq α]
 variable {m m' : Multiset α}
 
+@[blueprint "thm:inverse_enabled_after_firing"
+ (statement := /-- For a reversible net $R$, if $m [[t]]$ and $m [[t⟩ m'$ then there is a transition $t'$, which $t' ↽⇀ t$ and $m'[[t']]$.-/)
+ (hasProof := false)
+ (proofUses := ["lem:inverse"])
+]
 theorem inverse_enabled_after_firing (e : m 〚t〛⦃R⦄) (f : m 〚e⟩⦃R.toNet⦄ m') :
     ∃ t', t' ↽⇀ t ∧ m'〚t'〛⦃R⦄ := by
   exists (↽t)
@@ -228,6 +267,11 @@ theorem inverse_enabled_after_firing (e : m 〚t〛⦃R⦄) (f : m 〚e⟩⦃R.t
     subst f
     exact Multiset.le_add_left (R.post t) (m - R.pre t)
 
+@[blueprint "lem:cancelation"
+ (title := /-- Cancelation -/)
+ (statement := /-- If $t ↽⇀ t'$, $m 〚t⟩ m'$ and $m' [[t']]$ then $m'〚t'⟩ m$. -/)
+ (proofUses := ["lem:inverse_symm"])
+ (latexEnv := "lemma")]
 lemma cancelation (i : t ↽⇀ t') {e : m 〚t〛⦃R⦄} (f : m 〚e⟩⦃R.toNet⦄ m') (h' : m' 〚t'〛⦃R⦄) :
     m'〚h'⟩⦃R.toNet⦄ m := by
   have rev : t' ↽⇀ t := inverse_symm.mpr i
@@ -415,6 +459,13 @@ lemma fwd_bwd_disjoint_post_pre (R : ReversibleOccurrence α β)
 variable {RO : ReversibleOccurrence α β}
 variable [DecidableEq α]
 
+@[blueprint "lem:loop"
+ (title := /-- Loop -/)
+ (statement := /-- Let $t,t' ∈ β × Transition$ two reversing transitions, i.e., $t↽ ⇀ t'$. Then,  
+ $$(∃ e, m[[e⟩ m') \Longleftrightarrow (∃ e, m'[[e⟩ m)$$ -/)
+ (hasProof := false)
+ (proofUses := ["lemm:cancelation", "thm:inverse_enabled_after_firing"])
+ (latexEnv := "lemma")]
 lemma loop (i : t ↽⇀ t') :
     (∃ e : m〚t〛⦃RO⦄, m〚e⟩⦃RO.toNet⦄ m') ↔ (∃ e : m'〚t'〛⦃RO⦄, m'〚e⟩⦃RO.toNet⦄ m) := by
   constructor
@@ -431,6 +482,11 @@ lemma loop (i : t ↽⇀ t') :
     obtain := cancelation i f
     simp_all
 
+@[blueprint "thm:backtracking"
+ (title := /-- Backtracking -/)
+ (statement := /-- If $(∃ s, m[[s⟫ m')$ then $(∃ s, m'[[s⟫ m).$ -/)
+ (proof := /-- By induction over the length of a sequence $s$. By applying the Lemma \ref{lem:loop} to the step case $t;s$ on $s$, we can obtain a witness $s;↽ t$ and apply the respective concatenation (Lemma \ref{lem:concat_fs}) and we have the firing sequence as expected. -/)
+ (proofUses := ["lem:loop", "lem:concat_fs"])]
 theorem backtracking : (∃ s, m〚s⟩⟩⦃RO.toNet⦄ m') → (∃ s, m'〚s⟩⟩⦃RO.toNet⦄ m) := by
     rintro ⟨s, fs⟩
     induction fs with

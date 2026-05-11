@@ -1,7 +1,9 @@
-import PetriNet.MultisetAux
-import PetriNet.Nets
-import PetriNet.Equivalence
-import PetriNet.Occurrence
-import PetriNet.Parabolic
-import PetriNet.ReversibleOccurrence
-import PetriNet.Swapping
+module
+
+public import PetriNet.MultisetAux
+public import PetriNet.Nets
+public import PetriNet.Equivalence
+public import PetriNet.Occurrence
+public import PetriNet.Parabolic
+public import PetriNet.ReversibleOccurrence
+public import PetriNet.Swapping

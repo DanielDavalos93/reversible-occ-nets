@@ -1,11 +1,14 @@
-import PetriNet.ReversibleOccurrence
-import PetriNet.MultisetAux
+module
 
+public import PetriNet.ReversibleOccurrence
+public import PetriNet.MultisetAux
+import Architect
 open Nets ReversibleNet ReversibleOcc
 open Multiset
 open Nat
 open Relation Relation.TransGen
 
+@[expose] public section
 
 /-! ### Swapping
   In this file we proved lemmas about swap a forward transition `t` on a backward list `ω`:
@@ -15,11 +18,15 @@ open Relation Relation.TransGen
 variable {α β : Type}
 variable {t t' : Transition β} {m₀ m m' : Multiset α} {s : List (Transition β)}
 
+@[blueprint "def:no_rev_in_list"
+ (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. We define $$t ∉ ^r := \forall t' ∈ s, ¬ (t ↽⇀ t').$$ -/)]
 def no_rev_in_list (t : Transition β) (ls : List (Transition β)) :=
   ∀ t' ∈ ls, ¬ (t ↽⇀ t')
 
 infix:50 " ∉ʳ " => no_rev_in_list
 
+@[blueprint "def:no_rev_in_list"
+ (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. We define $$t ∃^r := \exists t' ∈ s, (t ↽⇀ t').$$ -/)]
 def exists_rev_in_list (t : Transition β) (ls : List (Transition β)) :=
   ∃ t' ∈ ls, t ↽⇀ t'
 
@@ -202,6 +209,12 @@ lemma not_reverse_disjoint_post_pre₂ (MO : MarkedReversibleOccurrence α β)
   | inl rev' => rw [inverse_symm] at rev' ; exact False.elim (ni rev')
   | inr nrev => exact nrev
 
+@[blueprint "lem:swap_fwd_bwd_pre_post_empty"
+ (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $t$ and $'t$ two transitions with $t• ∩ •t' = ∅ $ and $¬(t ↽⇀ t')$. 
+ If $M ↝ m$ and $m [t;t'⟫ m'$, then $m [[t';t⟫ m'$.-/)
+ (hasProof := false)
+ (uses := ["def:MarkedReversibleOccurrence"])
+ (latexEnv := "lemma")]
 lemma swap_fwd_bwd_pre_post_empty (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)
     (_ : ¬t ↽⇀ t') (b : m 〚[t, t']⟩⟩⦃MO⦄ m')
@@ -229,6 +242,12 @@ lemma swap_fwd_bwd_pre_post_empty (MO : MarkedReversibleOccurrence α β)
     exact .step e₁' (is_firing_of_enabled e₁') <| .step e₂'
       (is_firing_of_enabled (is_enabled_from e₂')) (.empty _)
 
+@[blueprint "lem:swap_fwd_reverse_not_inverse"
+ (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $t$ and $'t$ two transitions with $▷t$ (is forward transition) and $◁ t'$ (is backward transition).
+ If $M ↝ m₀$, $¬ (t ↽⇀ t')$ and $m[[t;t'⟫ m'$ is a firing sequence, then we can have the swapped firing sequence between the transitions: $m [[t';t⟫ m'$.-/)
+ (hasProof := false)
+ (proofUses := ["lem:swap_fwd_bwd_pre_post_empty"])
+ (latexEnv := "lemma")]
 lemma swap_fwd_reverse_not_inverse (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m) (ft : ▷t) (bt' : ◁t') (ni : ¬ t ↽⇀ t')
     (fs : m 〚[t, t']⟩⟩⦃MO⦄ m') : m 〚[t',t]⟩⟩⦃MO⦄ m':= by
@@ -249,6 +268,13 @@ lemma fs_rev_empty (i : t ↽⇀ t') (fs : m 〚[t, t']⟩⟩⦃RO⦄ m') :  m =
 /-- A forward transition `t` can be swapped with a backward sequence `ω` if there
 a firing sequence that passes through the sequence `t :: ω`
 -/
+@[blueprint "lem:swapping"
+ (title := /-- Swapping -/)
+ (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $s$ a sequence and $t$ a transition with the condition $◁ ◁ s$ and $▷t$.
+ If $M ↝ m₀$, $t ∉ s$ and $m[[t;s⟫ m'$ is a firing sequence, then we can have the swapped between the transition and all the backward sequence: $m [[s;t⟫ m'$. -/)
+ (hasProof := false)
+ (proofUses := ["lem:swap_fwd_reverse_not_inverse", "lem:reach_after_firing_from_reach", "lem:concat_fs"])
+ (latexEnv := "lemma")]
 lemma swapping (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)
     (bw : ◁◁s) (ft : ▷t) (nrev : t ∉ʳ s)

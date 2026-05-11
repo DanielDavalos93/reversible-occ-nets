@@ -1,11 +1,15 @@
-import Mathlib.Data.Set.Basic
-import Mathlib.Data.Rel
-import Mathlib.Data.Finset.Basic
-import Mathlib.Data.Multiset.Basic
+module
+
+public import Mathlib.Data.Set.Basic
+public import Mathlib.Data.Rel
+public import Mathlib.Data.Finset.Basic
+public import Mathlib.Data.Multiset.Basic
 import PetriNet.MultisetAux
 import Architect
 
 open Multiset
+
+@[expose] public section
 
 /-!
 # Basic definitions of Petri Net
@@ -112,8 +116,6 @@ def postsetₚ (N : Net α β) (p : α) : Set β :=
  simp]
 def postsetₜ (N : Net α β) (t : β) : Multiset α :=
   N.post t
-
-#show_blueprint
 
 notation:max p:max "•⦃" N "⦄" => postsetₚ ↑N p
 notation:max t:max "•⦃" N "⦄" => postsetₜ ↑N t

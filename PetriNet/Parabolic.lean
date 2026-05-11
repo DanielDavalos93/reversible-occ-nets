@@ -1,9 +1,14 @@
-import PetriNet.Equivalence
-import PetriNet.ReversibleOccurrence
+module
+
+public import PetriNet.Equivalence
+public import PetriNet.ReversibleOccurrence
+import Architect
 open TrEq
 open Nets
 open ReversibleNet
 open ReversibleOcc
+
+@[expose] public section
 
 variable {α β : Type} [DecidableEq α] {RO : ReversibleOccurrence α β}
          {m m' m'' m₀ : Multiset α} {t t' : Transition β}
@@ -63,6 +68,9 @@ lemma concat_canc_firing_sequence (MO : MarkedReversibleOccurrence α β)
     exact ⟨fsc, treq⟩
 
 --Forward case for the head of the list of transitions `s` in parabolic
+@[blueprint "lem:parabolic_step_fwd"
+ (proofUses := ["lem:concat_fs", "lem:swapping"])
+ (hasProof := false)]
 lemma parabolic_step_fwd (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m) {eₜ : m 〚t〛⦃MO⦄}
     (fₜ : m 〚eₜ⟩⦃MO.toNet⦄ m'')
@@ -89,6 +97,14 @@ end Properties_for_parabolic
 
 /-! ### Main result
 -/
+@[blueprint "thm:parabolic"
+ (title := /-- Parabolic lemma -/)
+ (statement := /--Let $R$ be a reversible occurrence net, $m$ a reachable marking, and $m [[\omega⟫ m'$ a firing sequence. Then there exist two sequences of transitions, $\omega'$ and
+  $\omega''$, such that $\omega'$ consists only of backward transitions, $\omega''$
+  consists only of forward transitions, $\omega ≍  \omega';\omega''$,
+  and $m [[\omega'; \omega''⟫ m'$. -/)
+  (proof := /-- By applying induction on the firing sequence. The base case when $m' = m$ is immediate. The inductive step applies the property of $≍ $ and the Lemma \ref{lem:parabolic_step_fwd}. -/)
+  (proofUses := ["lem:parabolic_step_fwd", "lem:concat_fs", "def:TrEq"])]
 theorem parabolic (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)
     (fs : m 〚s⟩⟩⦃MO⦄ m') : ∃ s' s'', parabolic_decomp (RO := markedRO_to_RO MO) s s' s'' m m' := by
