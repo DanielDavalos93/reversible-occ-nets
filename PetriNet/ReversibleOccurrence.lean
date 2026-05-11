@@ -340,7 +340,7 @@ attribute [coe] ReversibleOccurrence.toReversible
 
 @[blueprint "def:MarkedReversibleOccurrence"
  (title := /-- Marked reversible occurrence net -/)
- (statement := /-- A tuple $MO = (R,m₀)$ is \emph{marked reversible occurrence} if $R$ is a reversible net and (\textsf{fwd\_subnet } $R,m₀$) is marked occurrence, where \textsf{fwd_subnet} returns the forward subnet of a reversing net.-/)
+ (statement := /-- A tuple $MO = (R,m₀)$ is \emph{marked reversible occurrence} if $R$ is a reversible net and (\textsf{fwd\_subnet } $R,m₀$) is marked occurrence, where \textsf{fwd\_subnet} returns the forward subnet of a reversing net.-/)
  (latexEnv := "definition")]
 structure MarkedReversibleOccurrence α β extends Reversible α β where
   m₀ : Multiset α
