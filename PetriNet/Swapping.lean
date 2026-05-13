@@ -19,14 +19,16 @@ variable {α β : Type}
 variable {t t' : Transition β} {m₀ m m' : Multiset α} {s : List (Transition β)}
 
 @[blueprint "def:no_rev_in_list"
- (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. We define $$t ∉ ^r := \forall t' ∈ s, ¬ (t ↽⇀ t').$$ -/)]
+ (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. We define $$t ∉ ^r := \forall t' ∈ s, ¬ (t ↽⇀ t').$$ -/)
+ (uses := ["def:TransitionType"])]
 def no_rev_in_list (t : Transition β) (ls : List (Transition β)) :=
   ∀ t' ∈ ls, ¬ (t ↽⇀ t')
 
 infix:50 " ∉ʳ " => no_rev_in_list
 
-@[blueprint "def:no_rev_in_list"
- (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. We define $$t ∃^r := \exists t' ∈ s, (t ↽⇀ t').$$ -/)]
+@[blueprint "def:exists_rev_in_list"
+ (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. We define $$t ∃^r := \exists t' ∈ s, (t ↽⇀ t').$$ -/)
+ (uses := ["def:TransitionType"])]
 def exists_rev_in_list (t : Transition β) (ls : List (Transition β)) :=
   ∃ t' ∈ ls, t ↽⇀ t'
 
@@ -213,7 +215,7 @@ lemma not_reverse_disjoint_post_pre₂ (MO : MarkedReversibleOccurrence α β)
  (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $t$ and $'t$ two transitions with $t• ∩ •t' = ∅ $ and $¬(t ↽⇀ t')$. 
  If $M ↝ m$ and $m [t;t'⟫ m'$, then $m [[t';t⟫ m'$.-/)
  (hasProof := false)
- (uses := ["def:MarkedReversibleOccurrence"])
+ (uses := ["def:MarkedReversibleOccurrence", "def:reachable", "def:firing_sequence"])
  (latexEnv := "lemma")]
 lemma swap_fwd_bwd_pre_post_empty (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)

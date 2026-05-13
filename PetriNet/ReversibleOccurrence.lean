@@ -165,7 +165,9 @@ theorem inverse_irrefl (t : Transition β) : ¬ t↽⇀t := by
 
 variable {t t' t'' : Transition β}
 
-@[simp, blueprint "lem:inverse_symm"
+@[simp, blueprint "thm:inverse_symm"
+ (title := /-- Inverse symmetric -/)
+ (statement := /-- For $t,t'∈ β × \mathsf{TransitionType}$, $t↽ ⇀ t'$ if and only if $t↽ ⇀ t'$. -/)
  (hasProof := false)
 ] theorem inverse_symm : t ↽⇀ t' ↔ t' ↽⇀ t := by
   simp_all [inverse, reverse, opposite]
@@ -270,8 +272,8 @@ theorem inverse_enabled_after_firing (e : m 〚t〛⦃R⦄) (f : m 〚e⟩⦃R.t
 
 @[blueprint "lem:cancelation"
  (title := /-- Cancelation -/)
- (statement := /-- If $t ↽⇀ t'$, $m 〚t⟩ m'$ and $m' [[t']]$ then $m'〚t'⟩ m$. -/)
- (proofUses := ["lem:inverse_symm"])
+ (statement := /-- If $t ↽⇀ t'$, $m [[t⟩ m'$ and $m' [[t']]$ then $m'[[t'⟩ m$. -/)
+ (proofUses := ["thm:inverse_symm"])
  (latexEnv := "lemma")]
 lemma cancelation (i : t ↽⇀ t') {e : m 〚t〛⦃R⦄} (f : m 〚e⟩⦃R.toNet⦄ m') (h' : m' 〚t'〛⦃R⦄) :
     m'〚h'⟩⦃R.toNet⦄ m := by
@@ -340,6 +342,7 @@ attribute [coe] ReversibleOccurrence.toReversible
 @[blueprint "def:MarkedReversibleOccurrence"
  (title := /-- Marked reversible occurrence net -/)
  (statement := /-- A tuple $MO = (R,m₀)$ is \emph{marked reversible occurrence} if $R$ is a reversible net and (\textsf{fwd\_subnet } $R,m₀$) is marked occurrence, where \textsf{fwd\_subnet} returns the forward subnet of a reversing net.-/)
+ (uses := ["def:MarkedNet", "def:is_marked_occurrence"])
  (latexEnv := "definition")]
 structure MarkedReversibleOccurrence α β extends Reversible α β where
   m₀ : Multiset α

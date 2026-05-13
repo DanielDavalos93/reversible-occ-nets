@@ -66,7 +66,8 @@ example : [(t₁, bwd), ↽(t₁, bwd)] ≍⦃R₁⦄ [] := by
 variable {R : Reversible α β}
 
 @[blueprint "lem:TrEq_refl"
- (statement := /-- $s ≍ s$. -/)]
+ (statement := /-- $s ≍ s$. -/)
+ (proofUses := ["def:TrEq"])]
 def TrEq_refl (s : List (Transition β)) : s ≍⦃R⦄ s := by
   induction s with
   | nil => exact nil
@@ -76,7 +77,8 @@ def TrEq_refl (s : List (Transition β)) : s ≍⦃R⦄ s := by
 variable {s s₁ s₂ s₃ s₄ : List (Transition β)}
 
 @[blueprint "lem:TrEq_symm"
- (statement := /-- $s₁ ≍ s₂ \Longrightarrow s₂ ≍ s₁$. -/)]
+ (statement := /-- $s₁ ≍ s₂ \Longrightarrow s₂ ≍ s₁$. -/)
+ (proofUses := ["def:TrEq"])]
 def TrEq_symm (h : s₁ ≍⦃R⦄ s₂) : s₂ ≍⦃R⦄ s₁ := by
   induction h with
   | nil => exact nil
@@ -88,13 +90,15 @@ def TrEq_symm (h : s₁ ≍⦃R⦄ s₂) : s₂ ≍⦃R⦄ s₁ := by
   | trans s₁ s₂ s₃ _ _ ih1 ih2 => exact trans s₃ s₂ s₁  ih2 ih1;
 
 @[blueprint "lem:TrEq_trans"
- (statement := /-- $s₁ ≍ s₂ ∧ s₂ ≍ s₃ \Longrightarrow s₁ ≍ s₃$. -/ )]
+ (statement := /-- $s₁ ≍ s₂ ∧ s₂ ≍ s₃ \Longrightarrow s₁ ≍ s₃$. -/ )
+ (proofUses := ["def:TrEq"])]
 def TrEq_trans (h : s₁ ≍⦃R⦄ s₂) (h' : s₂ ≍⦃R⦄ s₃) : s₁ ≍⦃R⦄ s₃ :=
   trans s₁ s₂ s₃ h h'
 
 @[blueprint "lem:TrEq_congruence"
  (statement := /-- $ s₁ ≍ s₂ ∧  s₃ ≍ s₄ \Longrightarrow s₁; s₃ ≍ s₂ ; s₄ $. -/)
- (proof := /-- By cases over the structural definition \ref{def:TrEq}. -/)]
+ (proof := /-- By cases over the structural definition \ref{def:TrEq}. -/)
+ (proofUses := ["def:TrEq"])]
 lemma TrEq_congruence (h : s₁ ≍⦃R⦄ s₂) (h' : s₃ ≍⦃R⦄ s₄) : s₁ ++ s₃ ≍⦃R⦄ s₂ ++ s₄ := by
   induction h with
   | nil => simp; exact h'

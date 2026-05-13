@@ -4,7 +4,7 @@ public import Mathlib.Data.Set.Basic
 public import Mathlib.Data.Rel
 public import Mathlib.Data.Finset.Basic
 public import Mathlib.Data.Multiset.Basic
-import PetriNet.MultisetAux
+public import PetriNet.MultisetAux
 import Architect
 
 open Multiset
@@ -46,8 +46,8 @@ and the condition `∀ t , pre t ≠ ∅ ∧ post t ≠ ∅`.
 
 @[blueprint "def:net"
  (title := /-- Net -/)
- (statement := /-- A \emph{net} $N$ is a tuple $N = (\alpha, \beta, \bullet{\_}, \bullet{\_})$, where $\alpha$ is a nonempty set of places, $\beta$ is the set of transitions, and $•{\_}, {\_}•: \beta →  ℕ ^{\alpha}$ assign source and target to each transition. 
-We consider only nets in which every transition both consumes and produces, i.e., $•t ≠ ∅ $ and $t• ≠ ∅$  for all $t∈ β$. -/), 
+ (statement := /-- A \emph{net} $N$ is a tuple $N = (\alpha, \beta, \bullet{\_}, \bullet{\_})$, where $\alpha$ is a nonempty set of places, $\beta$ is the set of transitions, and $•{\_}, {\_}•: \beta →  ℕ ^{\alpha}$ assign source and target to each transition.
+We consider only nets in which every transition both consumes and produces, i.e., $•t ≠ ∅ $ and $t• ≠ ∅$  for all $t∈ β$. -/),
 ext]
 structure Net (α : Type) (β : Type) where
   pre : β → Multiset α
@@ -102,14 +102,14 @@ notation:max "•⦃" N "⦄" t:max => presetₜ ↑N t
 @[blueprint "def:postset_p"
  (title := /--Postset for places. -/)
  (statement := /-- A \emph{postset for places} is a function that take a net $N$, a place $p$ and return the set $\{t | p ∈ •t \}$, where the preset function is defined in Definition \ref{def:net}. -/)
- (uses := ["def:net"])
+ (uses := ["def:net", "def:prese"])
  ]
 def postsetₚ (N : Net α β) (p : α) : Set β :=
   {t | p ∈ •⦃N⦄ t}
 
 @[blueprint "def:postset_t"
  (title := /--Postset for transitions. -/)
- (statement := /-- A \emph{postset for transitions} is a function that take a net $N$, a transition $t$ and return the multiset $t•$. 
+ (statement := /-- A \emph{postset for transitions} is a function that take a net $N$, a transition $t$ and return the multiset $t•$.
 
  The notation for preset of places or transition are written as $\bullet_{ \{\!\{ N \}\!\} }t$, but in this file we'll use only the short notation $•t$. -/)
  (uses := ["def:net"]),
@@ -148,7 +148,7 @@ def minimal (N : Net α β) : Set α :=
   {p | •⦃N⦄ p = ∅ }
 
 @[blueprint "def:initial"
- (title := /-- Initial -/)
+ (title := /-- Is minimal -/)
  (statement := /-- A set $s$ is \emph{initial} in a net $N$ if $s ⊆ minimal(N)$. -/)
  (uses := ["def:minimal"])]
 def is_initial (N : Net α β) (s : Set α) : Prop :=
@@ -172,8 +172,8 @@ example : is_initial (N:= N₁) {a, b, c} := by
 def maximal (N : Net α β) : Set α :=
   {p | p•⦃N⦄ = ∅ }
 
-@[blueprint "def:maximal"
- (title := /-- Initial -/)
+@[blueprint "def:is_maximal"
+ (title := /-- Is maximal -/)
  (statement := /-- A set $s$ is \emph{maximal} in a net $N$ if $s ⊆ maximal(N)$. -/)
  (uses := ["def:maximal"])]
 def is_maximal (N : Net α β) (s : Set α) : Prop :=
@@ -194,7 +194,7 @@ Given a multiset `m`, `enable m` returns the set of transitions that are enabled
 @[blueprint "def:is_enabled"
  (title := /-- Enabled transition -/)
  (statement := /-- Given a net $N$ and a multiset $m$, a verificator of enabled transition is a function $\textsf{is\_enabled}:N → \textsf{Multiset} → β → \textsf{Prop}$ that verifies if $m ≤ •t$. We denote $\textsf{is\_enabled N m t}$ as $m[[t]]_{ \{\!\{ N\}\!\} }$. \footnote{In this documentation we avoid the subscript notation, and instead we write only $m[[t]]$.}-/)
- (uses := ["def:net"])]
+ (uses := ["def:net", "def:preset_t"])]
 def is_enabled (N : Net α β) (m : Multiset α) (t : β) : Prop := •⦃N⦄ t ≤ m
 
 notation:50  m:51 " 〚" t:51 "〛⦃" N "⦄" => is_enabled ↑N m t
@@ -262,7 +262,7 @@ example : {a,b,c} 〚t₁_enabled⟩⦃N₁⦄ {d,c} := by
 
 @[blueprint "def:firing_sequence"
  (title := /-- Firing sequence -/)
- (statement := /-- \texttt{firing\_sequence N m ls m'} is the concatenation of sequences, where $ls$ is the sequence of transitions, $m$ is the initial marking (Definition \ref{def:initial}) and $m'$ the final marking of the sequence. We denote for $s=ε$ for a empty sequence, in Lean this is an empty list, we denote for \textsf{';'} the concatenation of lists. Therefore, a firing sequence is defined inductively as 
+ (statement := /-- \texttt{firing\_sequence N m ls m'} is the concatenation of sequences, where $ls$ is the sequence of transitions, $m$ is the initial marking (Definition \ref{def:initial}) and $m'$ the final marking of the sequence. We denote for $s=ε$ for a empty sequence, in Lean this is an empty list, we denote for \textsf{';'} the concatenation of lists. Therefore, a firing sequence is defined inductively as
 \begin{itemize}
   \item \textsf{Empty.} $m [[ε⟫ m$
   \item \textsf{Inductive step.} For a sequence $t;s$ where $t$ is a transition and $s$ is a transition sequence, $m[[t;s⟫ m'$ is a firing sequence if there is $m''$ such that $m[[t⟩m''$ is firing and $m''[[s⟫ m'$ is a firing sequence.
@@ -361,6 +361,7 @@ lemma target_of_empty_fs (fs : m 〚[]⟩⟩⦃N⦄ m') : m' = m :=
 @[blueprint "lem:tail_of_fs"
  (statement := /-- Let $t$ be a transition and $s$ a sequence (note that $t;s$ is a sequence), $m,m'$ two multisets and $m[[ t;s ⟫ m'$, then there exist a multiset $m''$ such that $m'' [[ s⟫ m$. -/)
  (hasProof := false)
+ (proofUses := ["def:firing_sequence"])
  (latexEnv := "lemma")]
 lemma tail_of_fs (fs : m 〚t :: ts⟩⟩⦃N⦄ m') : ∃ m'', m'' 〚ts⟩⟩⦃N⦄ m' := by
   cases fs with
@@ -378,6 +379,7 @@ lemma head_of_fs (fs : m 〚t :: ts⟩⟩⦃N⦄ m') :
 @[blueprint "lem:concat_fs"
  (title := /-- Concat firing sequence-/)
  (statement := /-- Let be $m[[s_1⟫ m'$ and $m'[[s_2⟫ m''$ two firing sequences. Then $m[[s_1;s_2⟫ m''$.-/)
+ (uses := ["def:firing_sequence"])
  (hasProof := false)
  (latexEnv := "lemma")]
 lemma concat_fs (h1 : m 〚ts₁⟩⟩⦃N⦄ m') (h2 : m' 〚ts₂⟩⟩⦃N⦄ m'') : m 〚ts₁ ++ ts₂⟩⟩⦃N⦄ m'' := by
@@ -389,6 +391,7 @@ lemma concat_fs (h1 : m 〚ts₁⟩⟩⦃N⦄ m') (h2 : m' 〚ts₂⟩⟩⦃N⦄
  (title := /-- Append split of firing sequence -/)
  (statement := /-- Let $m[[s_1;s_2⟫ m'$ be a firing sequences, then there is a multiset $m''$ such that $m[[s_1⟫ m''$ and $m''[[s_2⟫ m'$.-/)
  (proof := /-- By induction on the length of $s_1$, and by structural induction on the firing sequence for $s_2$. -/)
+ (proofUses := ["def:firing_sequence"])
  (latexEnv := "lemma")]
 lemma append_split_of_fs (fs : m 〚ts₁ ++ ts₂⟩⟩⦃N⦄ m') :
     ∃ m'', m〚ts₁⟩⟩⦃N⦄ m'' ∧ m''〚ts₂⟩⟩⦃N⦄ m' :=
@@ -469,8 +472,9 @@ instance : Coe (MarkedNet α β) (Net α β) where
 
 @[blueprint "def:reachable"
  (title := /-- Reachable -/)
- (statement := /-- Given a marked net $M$ and a multiset $m$, \emph{reachable N m} return all the multisets that can be executed by sequences of firing enabled. 
+ (statement := /-- Given a marked net $M$ and a multiset $m$, \emph{reachable N m} return all the multisets that can be executed by sequences of firing enabled.
  We denote a reachable for a marking $m$ of a net $N$ by $N \leadsto m$.-/)
+ (uses := ["def:MarkedNet"])
 ]
 def reachable (M : MarkedNet α β) : Set (Multiset α) :=
   {m' | is_reachable M.toNet M.m₀ m'}
@@ -493,7 +497,8 @@ variable {t₁ t₂ : β} {m1 m2 : Multiset α}
 @[blueprint "lem:square"
  (title := /-- Square lemma -/)
  (statement := /-- Let $N$ a net, $m[[t_1⟩m_1$ and $m[[t_2⟩m_2$ two firings, and $•t₁ ∩ •t₂ = ∅ $. Then, there is a multiset $m'$ such that $m₁[[t₁⟩m'$ and $m₂ [[t₂⟩ m'$.-/)
- (proof := /-- It is suffices to take $m' = m - •t₁ + t₁• - •t₂ + t₂•$. To prove that $m₁[[t₁]]$ note that we can have $m₁ = m - •t₁ + t₁•$ after firing, and $•t₂ ≤ m - •t₁$. Analousgly with the enabled $m₂[[t₂]]$. -/)]
+ (proof := /-- It is suffices to take $m' = m - •t₁ + t₁• - •t₂ + t₂•$. To prove that $m₁[[t₁]]$ note that we can have $m₁ = m - •t₁ + t₁•$ after firing, and $•t₂ ≤ m - •t₁$. Analousgly with the enabled $m₂[[t₂]]$. -/)
+ (uses := ["def:is_enabled", "def:is_firing"])]
 lemma square (N : Net α β)
     {e₁ : m 〚t₁〛⦃N⦄} {e₂ : m 〚t₂〛⦃N⦄}
     (_ : m 〚e₁⟩⦃N⦄ m1) (_ : m 〚e₂⟩⦃N⦄ m2)
