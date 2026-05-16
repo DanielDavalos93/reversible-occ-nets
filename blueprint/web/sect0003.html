@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reversible occurrence nets</title>
+<link rel="next" href="sect0004.html" title="Parabolic" />
+<link rel="prev" href="sect0002.html" title="Occurrence nets" />
+<link rel="up" href="index.html" title="Reversible Occurrence Nets" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Reversible Occurrence Nets</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Petri nets</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html"><span class="toc_ref">2</span> <span class="toc_entry">Occurrence nets</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0003.html"><span class="toc_ref">3</span> <span class="toc_entry">Reversible occurrence nets</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0003.html#a0000000011"><span class="toc_ref">3.1</span> <span class="toc_entry">Transition type and reversible nets</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000012"><span class="toc_ref">3.2</span> <span class="toc_entry">Trace equivalence</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">4</span> <span class="toc_entry">Parabolic</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0004.html#a0000000013"><span class="toc_ref">4.1</span> <span class="toc_entry">Swapping lemma</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000014"><span class="toc_ref">4.2</span> <span class="toc_entry">Parabolic lemma</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000015"><span class="toc_ref"></span> <span class="toc_entry">Appendix - Auxiliar lemmas for multisets</span></a>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000004">3 Reversible occurrence nets</h1>
+<h1 id="a0000000011">3.1 Transition type and reversible nets</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:TransitionType">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">43</span>
+    <span class="definition_thmtitle">Transition Type</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  ReversibleNet.TransitionType Lets define the type <span class="sffamily">Transition \(::=\) fwd | bwd</span>, where their elements are the forward direction for \(\mathsf{fwd}\) and backward direction for \(\mathsf{bwd}\). Given a type for transition \(\beta \), we define the set of reversible transitions as pairs \(t_r ::= ⟨t,\mathsf{fwd}⟩ \mid ⟨t,\mathsf{bwd}⟩\) with \(t ∈ β \). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:isFwd">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">44</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:TransitionType  ReversibleNet.isFwd For \(b∈ β\), we’ll say that a <em>transition \(t=(b,\mathsf{fwd})\) is forward</em> and let’s denote it as \(▷t\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:isBwd">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">45</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:TransitionType  ReversibleNet.isBwd For \(b∈ β\), we’ll say that a <em>transition \(t=(b,\mathsf{bwd})\) is backward</em> and let’s denote it as \(◁t\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:all_forward">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">46</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:TransitionType,def:isFwd  ReversibleNet.all_forward Let \(s\) a sequence of transitions with types \(β × \mathsf{Transition}\). We denote \(▷\! ▷ s\) if forall \(t∈ s\), \(▷t\); or if \(s=ε\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:all_backward">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">47</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:TransitionType,def:isBwd  ReversibleNet.all_backward Let \(s\) a sequence of transitions with types \(β × \mathsf{Transition}\). We denote \(◁ \! ◁ s\) if forall \(t∈ s\), \(◁ t\); or if \(s=ε\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="thm:inverse_symm">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">48</span>
+    <span class="definition_thmtitle">Inverse symmetric</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:TransitionType  ReversibleNet.inverse_symm For \(t,t'∈ β × \mathsf{TransitionType}\), \(t↽ ⇀ t'\) if and only if \(t↽ ⇀ t'\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:Reversible">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">49</span>
+    <span class="definition_thmtitle">Reversing occurrence nets</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:postset_t,def:TransitionType,def:net,def:preset_t  ReversibleNet.Reversible A <em>reversible occurrence net</em> is a net \( N=(α, β \uplus \{ ↽ t \mid t∈ β\} ,•{\_ },{\_ }•) \) defined by the following conditions: </p>
+<ol class="enumerate">
+  <li><p>\((α, β, (•{\_ })_{|β}, ({\_ }•)_{|β}\) is an occurrence net, where \(f_{|β}\) denotes the restriction of the function \(f\) to the domain \(β\). </p>
+</li>
+  <li><p>For every \(t \in β\), \(• t = (↽{t})•\) and \(t• = •(↽ t)\). </p>
+</li>
+</ol>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="thm:inverse_enabled_after_firing">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">50</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:postset_t,def:TransitionType,def:is_enabled,def:net,def:preset_t,def:is_firing,def:Reversible  ReversibleNet.inverse_enabled_after_firing For a reversible net \(R\), if \(m [[t]]\) and \(m [[t⟩ m'\) then there is a transition \(t'\), which \(t' ↽⇀ t\) and \(m'[[t']]\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:cancelation">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">51</span>
+    <span class="lemma_thmtitle">Cancelation</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> def:TransitionType,def:is_enabled,def:net,def:is_firing,def:Reversible  ReversibleNet.cancelation If \(t ↽⇀ t'\), \(m [[t⟩ m'\) and \(m' [[t']]\) then \(m'[[t'⟩ m\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000019">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>def:postset_t,submultiset_cancelation,thm:inverse_symm,def:marking_after_firing,def:preset_t </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:MarkedReversibleOccurrence">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">52</span>
+    <span class="definition_thmtitle">Marked reversible occurrence net</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:TransitionType,def:MarkedNet,def:net,def:is_marked_occurrence,def:Reversible  ReversibleOcc.MarkedReversibleOccurrence A tuple \(MO = (R,m₀)\) is <em>marked reversible occurrence</em> if \(R\) is a reversible net and (<span class="sffamily">fwd_subnet </span> \(R,m₀\)) is marked occurrence, where <span class="sffamily">fwd_subnet</span> returns the forward subnet of a reversing net. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:loop">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">53</span>
+    <span class="lemma_thmtitle">Loop</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> def:TransitionType,thm:inverse_enabled_after_firing,def:is_enabled,lem:cancelation,def:net,thm:inverse_symm,def:is_firing,def:is_occurrence,def:Reversible  ReversibleOcc.loop Let \(t,t' ∈ β × Transition\) two reversing transitions, i.e., \(t↽ ⇀ t'\). Then, </p>
+<div class="displaymath" id="a0000000020">
+  \[ (∃ e, m[[e⟩ m') \Longleftrightarrow (∃ e, m'[[e⟩ m) \]
+</div>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:backtracking">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">54</span>
+    <span class="theorem_thmtitle">Backtracking</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> def:TransitionType,def:net,def:is_occurrence,def:firing_sequence,def:Reversible  ReversibleOcc.backtracking If \((∃ s, m[[s⟫ m')\) then \((∃ s, m'[[s⟫ m).\) </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000021">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>lem:loop,lem:concat_fs,def:is_enabled,def:is_firing By induction over the length of a sequence \(s\). By applying the Lemma <a href="sect0003.html#lem:loop">53</a> to the step case \(t;s\) on \(s\), we can obtain a witness \(s;↽ t\) and apply the respective concatenation (Lemma <a href="sect0001.html#lem:concat_fs">18</a>) and we have the firing sequence as expected. </p>
+
+  </div>
+</div>
+<h1 id="a0000000012">3.2 Trace equivalence</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:TrEq">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">55</span>
+    <span class="definition_thmtitle">Transition equivalence</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:postset_t,def:TransitionType,def:net,def:preset_t,def:Reversible  TrEq The statement of the lemma requires a formal notion of <em>equivalent firing sequences</em>, which is the smallest congruence<a class="footnote" href="#a0000000022">
+  <sup class="footnotemark">1</sup>
+</a> \(\asymp \) on transition sequences closed under the following rules: </p>
+<ul class="itemize">
+  <li><p>\(t;t' ≍ t';t\) if \(t \textsf{ co } t'\), </p>
+</li>
+  <li><p>\(t;↽ t ≍ ε\), and </p>
+</li>
+  <li><p>\(↽ t;t ≍ ε\). </p>
+</li>
+</ul>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="lem:TrEq_refl">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">56</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:TransitionType,def:TrEq,def:Reversible  TrEq_refl \(s ≍ s\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="lem:TrEq_symm">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">57</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:postset_t,def:TransitionType,def:TrEq,def:net,def:preset_t,def:Reversible  TrEq_symm \(s₁ ≍ s₂ \Longrightarrow s₂ ≍ s₁\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="lem:TrEq_trans">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">58</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:TransitionType,def:TrEq,def:Reversible  TrEq_trans \(s₁ ≍ s₂ ∧ s₂ ≍ s₃ \Longrightarrow s₁ ≍ s₃\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="lem:TrEq_congruence">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">59</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>def:TransitionType,def:TrEq,def:Reversible  TrEq_congruence \( s₁ ≍ s₂ ∧ s₃ ≍ s₄ \Longrightarrow s₁; s₃ ≍ s₂ ; s₄ \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000023">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>def:postset_t,def:net,def:TrEq,def:preset_t By cases over the structural definition <a href="sect0003.html#def:TrEq">55</a>. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+<footer id="footnotes">
+<ol>
+  <li id="a0000000022">A relation \(R\) over sequences is a <b class="bfseries">congruence</b> if it is an equivalence relation closed by concatenation, i.e., \(s_1 R s_2\) and \(s_3 R s_4\) implies \(s_1;s_2 R s_2;s_4\) for all \(s_1, s_2, s_3\) and \(s_4\).</li>
+</ol>
+</footer>
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="sect0002.html" title="Occurrence nets"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Reversible Occurrence Nets"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0004.html" title="Parabolic"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

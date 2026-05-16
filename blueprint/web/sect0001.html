@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Petri nets</title>
+<link rel="next" href="sect0002.html" title="Occurrence nets" />
+<link rel="prev" href="index.html" title="Reversible Occurrence Nets" />
+<link rel="up" href="index.html" title="Reversible Occurrence Nets" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Reversible Occurrence Nets</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active current">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Petri nets</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html"><span class="toc_ref">2</span> <span class="toc_entry">Occurrence nets</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">3</span> <span class="toc_entry">Reversible occurrence nets</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html#a0000000011"><span class="toc_ref">3.1</span> <span class="toc_entry">Transition type and reversible nets</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000012"><span class="toc_ref">3.2</span> <span class="toc_entry">Trace equivalence</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">4</span> <span class="toc_entry">Parabolic</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0004.html#a0000000013"><span class="toc_ref">4.1</span> <span class="toc_entry">Swapping lemma</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000014"><span class="toc_ref">4.2</span> <span class="toc_entry">Parabolic lemma</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000015"><span class="toc_ref"></span> <span class="toc_entry">Appendix - Auxiliar lemmas for multisets</span></a>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000002">1 Petri nets</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:net">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">1</span>
+    <span class="definition_thmtitle">Net</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Nets.Net A <em>net</em> \(N\) is a tuple \(N = (\alpha , \beta , \bullet {\_ }, \bullet {\_ })\), where \(\alpha \) is a nonempty set of places, \(\beta \) is the set of transitions, and \(•{\_ }, {\_ }•: \beta → ℕ ^{\alpha }\) assign source and target to each transition. We consider only nets in which every transition both consumes and produces, i.e., \(•t ≠ ∅ \) and \(t• ≠ ∅\) for all \(t∈ β\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:preset_p">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2</span>
+    <span class="definition_thmtitle">Preset for places.</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:net  Nets.presetₚ A <em>preset for places</em> is a function that take a net \(N\), a place \(p\) and return the set \(\{ t \mid p ∈ t•\} \), where the postset function is defined in Definition <a href="sect0001.html#def:net">1</a>. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:preset_t">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">3</span>
+    <span class="definition_thmtitle">Preset for transitions.</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:net  Nets.presetₜ A <em>preset for transitions</em> is a function that take a net \(N\), a transition \(t\) and return the multiset \(•t\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:postset_p">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">4</span>
+    <span class="definition_thmtitle">Postset for places.</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:net,def:preset_t  Nets.postsetₚ A <em>postset for places</em> is a function that take a net \(N\), a place \(p\) and return the set \(\{ t | p ∈ •t \} \), where the preset function is defined in Definition <a href="sect0001.html#def:net">1</a>. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:postset_t">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">5</span>
+    <span class="definition_thmtitle">Postset for transitions.</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:net  Nets.postsetₜ A <em>postset for transitions</em> is a function that take a net \(N\), a transition \(t\) and return the multiset \(t•\). </p>
+<p>The notation for preset of places or transition are written as \(\bullet _{ \{ \! \{  N \} \! \}  }t\), but in this file we’ll use only the short notation \(•t\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:minimal">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">6</span>
+    <span class="definition_thmtitle">Minimal</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:preset_p,def:net  Nets.minimal This definition say if the multiset doesn’t have any transition before. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:initial">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">7</span>
+    <span class="definition_thmtitle">Is minimal</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:minimal,def:net  Nets.is_initial A set \(s\) is <em>initial</em> in a net \(N\) if \(s ⊆ minimal(N)\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:maximal">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">8</span>
+    <span class="definition_thmtitle">Maximal</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:postset_p,def:net  Nets.maximal This definition say if the multiset doesn’t have any transition after. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:is_maximal">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9</span>
+    <span class="definition_thmtitle">Is maximal</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:maximal,def:net  Nets.is_maximal A set \(s\) is <em>maximal</em> in a net \(N\) if \(s ⊆ maximal(N)\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:is_enabled">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">10</span>
+    <span class="definition_thmtitle">Enabled transition</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:net,def:preset_t  Nets.is_enabled Given a net \(N\) and a multiset \(m\), a verificator of enabled transition is a function \(\textsf{is\_ enabled}:N → \textsf{Multiset} → β → \textsf{Prop}\) that verifies if \(m ≤ •t\). We denote \(\textsf{is\_ enabled N m t}\) as \(m[[t]]_{ \{ \! \{  N\} \! \}  }\). <a class="footnote" href="#a0000000006">
+  <sup class="footnotemark">1</sup>
+</a> </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:marking_after_firing">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">11</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:postset_t,def:is_enabled,def:net,def:preset_t  Nets.marking_after_firing Given a net \(N\), a transition \(t\) and a prove that \(t\) is enabled at \(m\), the function <span class="sffamily">marking_after_firing N m e</span> returns the multiset applied at \(m\) on \(t\), which is \(m - •t + t•\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:is_firing">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12</span>
+    <span class="definition_thmtitle">Firing</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:is_enabled,def:net,def:marking_after_firing  Nets.is_firing Given a net \(N\), <span class="sffamily">is_firing : N → Multiset \(\alpha \) → h → Multiset \(\alpha \) → <span class="sffamily">Prop</span></span> checks if a firing on a multiset \(m\) by \(t\) is equal to another multiset \(m'\), i.e., if \(m[[t⟩ = m'\). We denote this only by \(m[[t⟩m'\) </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:firing_sequence">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13</span>
+    <span class="definition_thmtitle">Firing sequence</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:is_enabled,def:net,def:is_firing  Nets.firing_sequence <span class="ttfamily">firing_sequence N m ls m’</span> is the concatenation of sequences, where \(ls\) is the sequence of transitions, \(m\) is the initial marking (Definition <a href="sect0001.html#def:initial">7</a>) and \(m'\) the final marking of the sequence. We denote for \(s=ε\) for a empty sequence, in Lean this is an empty list, we denote for <span class="sffamily">’;’</span> the concatenation of lists. Therefore, a firing sequence is defined inductively as </p>
+<ul class="itemize">
+  <li><p><span class="sffamily">Empty.</span> \(m [[ε⟫ m\) </p>
+</li>
+  <li><p><span class="sffamily">Inductive step.</span> For a sequence \(t;s\) where \(t\) is a transition and \(s\) is a transition sequence, \(m[[t;s⟫ m'\) is a firing sequence if there is \(m''\) such that \(m[[t⟩m''\) is firing and \(m''[[s⟫ m'\) is a firing sequence. </p>
+</li>
+</ul>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:firing_deterministic">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">14</span>
+    <span class="lemma_thmtitle">Firing deterministic</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> def:is_enabled,def:net,def:is_firing  Nets.firing_deterministic For a net \(N\) and a transition \(t\) enabled at \(m\) (where \(e\) is a proof that it is enabled), if \(m [[t⟩ m'\) and \(m [[t⟩ m''\) then \(m' = m''\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000007">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>def:marking_after_firing,def:is_firing Immediate by unfolding Definition <a href="sect0001.html#def:is_firing">12</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:target_of_empty_fs">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">15</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>def:net,def:firing_sequence  Nets.target_of_empty_fs For every net \(N\) and multisets \(m,m'\), \(m[[ε⟫m'\) implies \(m = m'\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000008">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>def:is_enabled,def:is_firing,def:firing_sequence By structural induction on the firing sequence. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:tail_of_fs">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">16</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>def:is_enabled,def:net,def:is_firing,def:firing_sequence  Nets.tail_of_fs Let \(t\) be a transition and \(s\) a sequence (note that \(t;s\) is a sequence), \(m,m'\) two multisets and \(m[[ t;s ⟫ m'\), then there exist a multiset \(m''\) such that \(m'' [[ s⟫ m\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:head_of_fs">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">17</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>def:is_enabled,def:net,def:is_firing,def:firing_sequence  Nets.head_of_fs Let \(t\) be a transition, \(s\) a sequence of transitions, \(m,m'\) two multisets, and \(m[[t;s ⟫ m'\). Then, there exist a multiset \(m''\) such that \(m[[t⟩ m''\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:concat_fs">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">18</span>
+    <span class="lemma_thmtitle">Concat firing sequence</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> def:is_enabled,def:net,def:is_firing,def:firing_sequence  Nets.concat_fs Let be \(m[[s_1⟫ m'\) and \(m'[[s_2⟫ m''\) two firing sequences. Then \(m[[s_1;s_2⟫ m''\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:append_split_of_fs">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">19</span>
+    <span class="lemma_thmtitle">Append split of firing sequence</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> def:net,def:firing_sequence  Nets.append_split_of_fs Let \(m[[s_1;s_2⟫ m'\) be a firing sequences, then there is a multiset \(m''\) such that \(m[[s_1⟫ m''\) and \(m''[[s_2⟫ m'\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000009">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>def:is_enabled,def:is_firing,def:firing_sequence By induction on the length of \(s_1\), and by structural induction on the firing sequence for \(s_2\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:fs_deterministic">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">20</span>
+    <span class="lemma_thmtitle">Firing sequence deterministic</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> def:is_enabled,def:net,lem:target_of_empty_fs,def:is_firing,def:firing_sequence,lem:firing_deterministic  Nets.fs_deterministic Let be \(m [[ s ⟫ m'\) and \(m [[ s ⟫ m''\) two firing sequences, then \(m' = m''\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:MarkedNet">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">21</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:net  Nets.MarkedNet A <em>marked net</em> is a tuple \(M = (N,m₀)\), where \(N\) is a net (Definition <a href="sect0001.html#def:net">1</a>) and \(m₀\) is the initial marking. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:reachable">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">22</span>
+    <span class="definition_thmtitle">Reachable</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p> def:MarkedNet,def:net,def:firing_sequence  Nets.reachable Given a marked net \(M\) and a multiset \(m\), <em>reachable N m</em> return all the multisets that can be executed by sequences of firing enabled. We denote a reachable for a marking \(m\) of a net \(N\) by \(N \leadsto m\). </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="lem:square">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">23</span>
+    <span class="theorem_thmtitle">Square lemma</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> def:is_enabled,def:net,def:preset_t,def:is_firing  Nets.square Let \(N\) a net, \(m[[t_1⟩m_1\) and \(m[[t_2⟩m_2\) two firings, and \(•t₁ ∩ •t₂ = ∅ \). Then, there is a multiset \(m'\) such that \(m₁[[t₁⟩m'\) and \(m₂ [[t₂⟩ m'\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000010">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>def:postset_t,def:marking_after_firing It is suffices to take \(m' = m - •t₁ + t₁• - •t₂ + t₂•\). To prove that \(m₁[[t₁]]\) note that we can have \(m₁ = m - •t₁ + t₁•\) after firing, and \(•t₂ ≤ m - •t₁\). Analousgly with the enabled \(m₂[[t₂]]\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+<footer id="footnotes">
+<ol>
+  <li id="a0000000006">In this documentation we avoid the subscript notation, and instead we write only \(m[[t]]\).</li>
+</ol>
+</footer>
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="index.html" title="Reversible Occurrence Nets"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Reversible Occurrence Nets"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0002.html" title="Occurrence nets"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

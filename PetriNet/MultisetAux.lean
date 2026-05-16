@@ -5,12 +5,16 @@ public import Mathlib.Data.Multiset.AddSub
 public import Mathlib.Data.Multiset.Defs
 public import Mathlib.Data.Multiset.Basic
 public import Mathlib.Data.Finset.Basic
+import Architect
 
 public section
 
 open Multiset
 variable {α β : Type} {s t u m n : Multiset α} {a b : α}
 
+@[blueprint
+ (statement := /-- If $t ≤ s$ then $t + (s-t) = s$. -/)
+ (latexEnv := "lemma")]
 lemma submultiset_cancelation [DecidableEq α] (h : t ≤ s) : t + (s - t) = s := by
   induction s, t using Quot.induction_on₂ with
   | h s t => simp_all [List.subperm_ext_iff, List.subperm_append_diff_self_of_count_le]
@@ -21,6 +25,9 @@ theorem cons_sub_of_not_mem [DecidableEq α] (s : Multiset α) (h : a ∉ t) :
   induction s, t using Quot.induction_on₂ with
   | h s t => simp_all [List.cons_diff_of_not_mem h]
 
+@[blueprint 
+ (statement := /-- $s + t -u = s - u + t$. -/)
+ (latexEnv := "lemma")]
 lemma disjoint_sub_add_comm [DecidableEq α] (h : Disjoint t u) : s + t - u = s - u + t := by
     induction t using Multiset.induction_on <;> simp_all
 

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Parabolic</title>
+<link rel="prev" href="sect0003.html" title="Reversible occurrence nets" />
+<link rel="up" href="index.html" title="Reversible Occurrence Nets" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Reversible Occurrence Nets</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Petri nets</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html"><span class="toc_ref">2</span> <span class="toc_entry">Occurrence nets</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">3</span> <span class="toc_entry">Reversible occurrence nets</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0003.html#a0000000011"><span class="toc_ref">3.1</span> <span class="toc_entry">Transition type and reversible nets</span></a>
+ </li>
+<li class="">
+  <a href="sect0003.html#a0000000012"><span class="toc_ref">3.2</span> <span class="toc_entry">Trace equivalence</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="sect0004.html"><span class="toc_ref">4</span> <span class="toc_entry">Parabolic</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0004.html#a0000000013"><span class="toc_ref">4.1</span> <span class="toc_entry">Swapping lemma</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000014"><span class="toc_ref">4.2</span> <span class="toc_entry">Parabolic lemma</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000015"><span class="toc_ref"></span> <span class="toc_entry">Appendix - Auxiliar lemmas for multisets</span></a>
+ </li>
+
+  </ul>
+ </li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000005">4 Parabolic</h1>
+<h1 id="a0000000013">4.1 Swapping lemma</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:no_rev_in_list">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">60</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:TransitionType  no_rev_in_list Let \(t ∈ β\) a transition and \(s\) a sequence of transitions of \(β\). We define </p>
+<div class="displaymath" id="a0000000024">
+  \[ t ∉ ^r := \forall t' ∈ s, ¬ (t ↽⇀ t'). \]
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:exists_rev_in_list">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">61</span>
+  </div>
+  <div class="definition_thmcontent">
+  <p>def:TransitionType  exists_rev_in_list Let \(t ∈ β\) a transition and \(s\) a sequence of transitions of \(β\). We define </p>
+<div class="displaymath" id="a0000000025">
+  \[ t ∃^r := \exists t' ∈ s, (t ↽⇀ t'). \]
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:swap_fwd_bwd_pre_post_empty">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">62</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>def:backward_conflict,lem:firing_preserves_concurrency,def:preset_t,def:is_occurrence,def:preorder,def:postset_t,lem:conc_pre_of_conc_post,def:conflict,thm:inverse_symm,def:immediate_conflict,def:reachable,def:isFwd,def:MarkedReversibleOccurrence,lem:concat_fs,def:acyclic,lem:append_split_of_fs,def:TransitionType,def:is_enabled,def:net,def:is_marked_occurrence,lem:target_of_empty_fs,def:is_firing,def:firing_sequence,def:Reversible,def:MarkedNet,def:Concurrent,def:causal,lem:minimal_places_concurrent,def:immediate,def:marking_after_firing,def:concurrent,disjoint_sub_add_comm  swap_fwd_bwd_pre_post_empty Let \(M = (N, m₀)\) a marked reversible occurrence net, \(m\) a marking, \(t\) and \('t\) two transitions with \(t• ∩ •t' = ∅ \) and \(¬(t ↽⇀ t')\). If \(M ↝ m\) and \(m [t;t'⟫ m'\), then \(m [[t';t⟫ m'\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:swap_fwd_reverse_not_inverse">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">63</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>def:backward_conflict,def:TransitionType,def:isBwd,def:net,def:is_marked_occurrence,def:preset_t,def:firing_sequence,def:is_occurrence,def:Reversible,def:postset_t,def:MarkedNet,def:immediate,def:reachable,def:isFwd,def:MarkedReversibleOccurrence,lem:swap_fwd_bwd_pre_post_empty  swap_fwd_reverse_not_inverse Let \(M = (N, m₀)\) a marked reversible occurrence net, \(m\) a marking, \(t\) and \('t\) two transitions with \(▷t\) (is forward transition) and \(◁ t'\) (is backward transition). If \(M ↝ m₀\), \(¬ (t ↽⇀ t')\) and \(m[[t;t'⟫ m'\) is a firing sequence, then we can have the swapped firing sequence between the transitions: \(m [[t';t⟫ m'\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:swapping">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">64</span>
+    <span class="lemma_thmtitle">Swapping</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> lem:concat_fs,def:is_enabled,def:TransitionType,def:isBwd,def:net,lem:swap_fwd_reverse_not_inverse,def:is_firing,def:no_rev_in_list,def:firing_sequence,def:Reversible,def:MarkedNet,def:reachable,def:isFwd,def:MarkedReversibleOccurrence,def:all_backward  swapping Let \(M = (N, m₀)\) a marked reversible occurrence net, \(m\) a marking, \(s\) a sequence and \(t\) a transition with the condition \(◁ ◁ s\) and \(▷t\). If \(M ↝ m₀\), \(t ∉ s\) and \(m[[t;s⟫ m'\) is a firing sequence, then we can have the swapped between the transition and all the backward sequence: \(m [[s;t⟫ m'\). </p>
+
+  </div>
+</div>
+<h1 id="a0000000014">4.2 Parabolic lemma</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:parabolic_step_fwd">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">65</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>def:backward_conflict,def:isBwd,lem:swapping,def:TrEq,lem:firing_preserves_concurrency,def:preset_t,def:is_occurrence,def:preorder,lem:TrEq_trans,def:postset_t,lem:conc_pre_of_conc_post,def:conflict,def:immediate_conflict,thm:inverse_symm,def:reachable,def:isFwd,def:MarkedReversibleOccurrence,lem:concat_fs,def:acyclic,lem:append_split_of_fs,def:TransitionType,def:is_enabled,submultiset_cancelation,def:net,def:all_forward,def:is_marked_occurrence,lem:target_of_empty_fs,lem:swap_fwd_reverse_not_inverse,def:exists_rev_in_list,def:is_firing,def:no_rev_in_list,def:firing_sequence,def:Reversible,def:Concurrent,def:MarkedNet,def:causal,lem:minimal_places_concurrent,lem:TrEq_refl,def:immediate,def:marking_after_firing,def:concurrent,lem:TrEq_symm,def:all_backward  parabolic_step_fwd Step of forward case for parabolic. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:parabolic">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">66</span>
+    <span class="theorem_thmtitle">Parabolic lemma</span>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> def:TransitionType,def:MarkedNet,def:TrEq,def:net,def:is_marked_occurrence,def:all_forward,def:reachable,def:MarkedReversibleOccurrence,def:is_occurrence,def:firing_sequence,def:all_backward,def:Reversible  parabolic Let \(R\) be a reversible occurrence net, \(m\) a reachable marking, and \(m [[\omega ⟫ m'\) a firing sequence. Then there exist two sequences of transitions, \(\omega '\) and \(\omega ''\), such that \(\omega '\) consists only of backward transitions, \(\omega ''\) consists only of forward transitions, \(\omega ≍ \omega ';\omega ''\), and \(m [[\omega '; \omega ''⟫ m'\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000026">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  <p>lem:concat_fs,lem:parabolic_step_fwd,def:is_enabled,lem:TrEq_refl,def:isBwd,def:TrEq,def:isFwd,def:is_firing By applying induction on the firing sequence. The base case when \(m' = m\) is immediate. The inductive step applies the property of \(≍ \) and the Lemma <a href="sect0004.html#lem:parabolic_step_fwd">65</a>. </p>
+
+  </div>
+</div>
+<h1 id="a0000000015">Appendix - Auxiliar lemmas for multisets</h1>
+<div class="lemma_thmwrapper theorem-style-plain" id="submultiset_cancelation">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">67</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> submultiset_cancelation If \(t ≤ s\) then \(t + (s-t) = s\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000027">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="disjoint_sub_add_comm">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">68</span>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> disjoint_sub_add_comm \(s + t -u = s - u + t\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000028">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▼</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <a href="sect0003.html" title="Reversible occurrence nets"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="index.html" title="Reversible Occurrence Nets"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+</body>
+</html>

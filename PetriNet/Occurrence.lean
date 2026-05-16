@@ -216,7 +216,7 @@ lemma flow_of_pre_and_flow (ha : inr t ≼⦃N⦄ inl a) (hb : b ∈ •⦃N⦄t
   exact .trans (.tail .refl h) ha
 
 @[blueprint "lem:not_cause_of_minimal"
- (statement := /-- Let $N$ be a net and $a ∈ α$ a place. If $a ∈ \emph{minimal}(a)$ and $x ≠ a$ then $¬ (x≼ a)$. -/)
+ (statement := /-- Let $N$ be a net and $a ∈ α$ a place. If $a ∈ \mathsf{minimal}(a)$ and $x ≠ a$ then $¬ (x≼ a)$. -/)
  (hasProof := false)]
 lemma not_cause_of_minimal (ha : a ∈ minimal N) (neq : x ≠ inl a) : ¬ (x ≼⦃N⦄ inl a) := by
   intro h

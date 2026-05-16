@@ -5,3 +5,37 @@
 % If you want to split the blueprint content into several files then
 % the current file can be a simple sequence of \input. Otherwise It
 % can start with a \section or \chapter for instance.
+
+\input{../../.lake/build/blueprint/library/PetriNet.tex}
+
+\chapter{Petri nets}
+
+\inputleanmodule{PetriNet.Nets}
+
+\chapter{Occurrence nets}
+
+\inputleanmodule{PetriNet.Occurrence}
+
+\chapter{Reversible occurrence nets}
+
+\section{Transition type and reversible nets}
+
+\inputleanmodule{PetriNet.ReversibleOccurrence}
+
+\section{Trace equivalence}
+
+\inputleanmodule{PetriNet.Equivalence}
+
+\chapter{Parabolic}
+
+\section{Swapping lemma}
+
+\inputleanmodule{PetriNet.Swapping}
+
+\section{Parabolic lemma}
+
+\inputleanmodule{PetriNet.Parabolic}
+
+\section*{Appendix - Auxiliar lemmas for multisets}
+
+\inputleanmodule{PetriNet.MultisetAux}

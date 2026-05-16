@@ -102,7 +102,7 @@ notation:max "•⦃" N "⦄" t:max => presetₜ ↑N t
 @[blueprint "def:postset_p"
  (title := /--Postset for places. -/)
  (statement := /-- A \emph{postset for places} is a function that take a net $N$, a place $p$ and return the set $\{t | p ∈ •t \}$, where the preset function is defined in Definition \ref{def:net}. -/)
- (uses := ["def:net", "def:prese"])
+ (uses := ["def:net", "def:preset_t"])
  ]
 def postsetₚ (N : Net α β) (p : α) : Set β :=
   {t | p ∈ •⦃N⦄ t}
