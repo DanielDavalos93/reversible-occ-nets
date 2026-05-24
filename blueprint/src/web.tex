@@ -9,7 +9,7 @@
 \usepackage{amssymb, amsthm, amsmath}
 \usepackage{hyperref}
 \usepackage[showmore, dep_graph]{blueprint}
-
+\usepackage{authblk}
 
 \input{macros/common}
 \input{macros/web}
@@ -17,11 +17,27 @@
 \home{https://DanielDavalos93.github.io/reversible-occ-nets}
 \github{https://github.com/DanielDavalos93/reversible-occ-nets}
 \dochome{https://DanielDavalos93.github.io/reversible-occ-nets/docs}
+\paper{https://reversible-computation.github.io/accepted}
 
 \title{Reversible Occurrence Nets}
 \author{Hernán Melgratti \and Daniel Dávalos}
+\affil{Universidad de Buenos Aires}
+\date{\today}
 
 \begin{document}
 \maketitle
+
+\begin{center}
+  \textbf{- Abstract -}
+\end{center}
+
+Petri nets constitute a foundational model of concurrency, which makes their reversible counterparts particularly relevant. Reversible
+Petri nets have been used to investigate the relationships between different models of concurrency, such as process calculi and event structures.
+In this paper, we address the problem of mechanizing the theory of reversible Petri nets with causally consistent reversibility. Specifically, we
+present a full mechanization of reversible Occurrence Petri nets in the
+Lean proof assistant. We formally verify that this model satisfies causal-dependent reversibility by mechanizing the so-called parabolic lemma.
+
+\emph{keywords:} Proof assistant, Reversibility, Concurrency
+
 \input{content}
 \end{document}

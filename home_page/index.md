@@ -9,6 +9,7 @@ usemathjax: true
 Useful links:
 
 * [Zulip chat for Lean](https://leanprover.zulipchat.com/) for coordination
+* [Conference paper](https://reversible-computation.github.io/accepted/)
 * [Blueprint]({{ site.url }}/blueprint/)
 * [Blueprint as pdf]({{ site.url }}/blueprint.pdf)
 * [Dependency graph]({{ site.url }}/blueprint/dep_graph_document.html)
