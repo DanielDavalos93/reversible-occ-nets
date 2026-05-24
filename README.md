@@ -1,6 +1,6 @@
 # Reversible PT Nets in Lean Prover
 
-`Lean version`: [v4.30.0-rc2](https://github.com/leanprover/lean4/tree/v4.30.0-rc2).
+[![Lean Prover release - v4.30.0-rc2](https://img.shields.io/static/v1?label=leanprover&message=lean4&color=blue&logo=github)](https://github.com/leanprover/lean4/tree/v4.30.0-rc2 "Go to GitHub repo")
 
 This repository contains a full formalization of reversible ocurrence nets in [Lean Prover](https://lean-lang.org/). The organizational structure of the library's files is given by the next graph:
 
@@ -20,6 +20,8 @@ This repository contains a full formalization of reversible ocurrence nets in [L
 
 * [Dependency graph](https://danieldavalos93.github.io/reversible-occ-nets/blueprint/dep_graph_document.html)
 * [Blueprint](https://danieldavalos93.github.io/reversible-occ-nets/blueprint.pdf)
+
+We used the [LeanArquitect](https://github.com/hanwenzhu/LeanArchitect) repository to build the documentation.
 
 ## Install and usage
 
