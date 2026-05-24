@@ -250,6 +250,11 @@ example : marking_after_firing N₁ {a, b, c} t₁_enabled  = {c, d} := by
 def is_firing (N : Net α β) (m : Multiset α) (h : m 〚t〛⦃N⦄) (m' : Multiset α) : Prop :=
   marking_after_firing N m h = m'
 
+@[blueprint "lem:is_firing_of_enabled"
+ (statement := /-- Let $N$ be a net, $t$ a transition and $m$ a multiset, then $m [[t⟫ (m - •t + t•)$. -/)
+ (proof := /-- It is immediate by Definition \ref{def:is_firing} and Definitin \ref{def:marking_after_firing}.-/)
+ (uses := ["def:is_firing", "def:marking_after_firing"])
+ (proofUses := ["def:is_firing", "def:marking_after_firing"])]
 lemma is_firing_of_enabled (e : m 〚t〛⦃N⦄) : is_firing N m e (m - •⦃N⦄ t +  t•⦃N⦄) := by
   unfold is_firing marking_after_firing; simp
 
@@ -483,6 +488,11 @@ notation:50 N:51 " ↝ " m:51  =>  m ∈ (reachable ↑N)
 
 /-- Reachable markings are sets.
 -/
+@[blueprint "def:safe"
+ (title := /-- Safe -/)
+ (statement := /-- A marked net $M = (N, m₀)$ is \emph{safe} if for every multiset $m$, $M ↝ m$ 
+ implies that $m$ has no duplicate. -/)
+ (uses := ["def:MarkedNet"])]
 def safe (M : MarkedNet α β) : Prop :=
   ∀ m, M ↝ m → Nodup m
 

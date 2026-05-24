@@ -32,6 +32,18 @@ inductive TransitionType
 
 open TransitionType
 
+@[blueprint "def:opposite"
+ (title := /-- Opposite -/)
+ (statement := /-- For a transition with type $\mathsf{Transition}$ we define the \emph{opposite} of 
+ $t_t$ as 
+ $$opposite(t_t) = 
+ \begin{cases} 
+  \mathsf{fwd} & \text{ if } t_t = \mathsf{bwd}\\
+  \mathsf{bwd} & \text{ if } t_t = \mathsf{fwd}
+ \end{cases}$$-/)
+  (uses := ["def:TransitionType"])
+  (latexEnv := "definition")
+ ]
 def opposite (tt : TransitionType) : TransitionType :=
   match tt with
   | fwd  => bwd
@@ -39,19 +51,21 @@ def opposite (tt : TransitionType) : TransitionType :=
 
 variable {tt tt' : TransitionType}
 
-@[simp] def eq_of_opposite : opposite tt = opposite tt' ↔ tt = tt' := by
+@[simp] lemma eq_of_opposite : opposite tt = opposite tt' ↔ tt = tt' := by
   simp [opposite];
   constructor <;> {rcases tt <;> rcases tt' <;> simp_all}
 
 abbrev Transition (β : Type) :=  β × TransitionType
 
 @[blueprint "def:isFwd"
- (statement := /-- For $b∈ β$, we'll say that a \emph{transition $t=(b,\mathsf{fwd})$ is forward} and let's denote it as $▷t$. -/)
+ (statement := /-- For $b∈ β$, we'll say that a \emph{transition $t=(b,\mathsf{fwd})$ is forward} 
+ and let's denote it as $▷t$. -/)
  (uses := ["def:TransitionType"])]
 def isFwd (t : Transition β) : Prop := t.snd = fwd
 
 @[blueprint "def:isBwd"
- (statement := /-- For $b∈ β$, we'll say that a \emph{transition $t=(b,\mathsf{bwd})$ is backward} and let's denote it as $◁t$. -/)
+ (statement := /-- For $b∈ β$, we'll say that a \emph{transition $t=(b,\mathsf{bwd})$ is backward}
+ and let's denote it as $◁t$. -/)
  (uses := ["def:TransitionType"])]
 def isBwd (t : Transition β) : Prop := t.snd = bwd
 
@@ -65,6 +79,12 @@ lemma is_fwd_of_not_bwd (h : ¬◁t) : ▷t := by
 theorem ne_of_fwd_bwd {t t' : Transition β} (_ : ▷t) (_ : ◁t') : t ≠ t' := by
   intro; simp_all [isFwd, isBwd]
 
+@[blueprint "def:reverse"
+ (title := /-- Reverse -/)
+ (statement := /-- For a transition with type $t=⟨t_{β}, t_t⟩ ∈ β × \mathsf{Transition}$, its 
+ \emph{reverse} is defined as $↽ t := ⟨t_β, opposite(t_t)⟩$. -/)
+ (uses := ["def:TransitionType", "def:opposite"])
+ ]
 def reverse (t : Transition β) : Transition β :=
   (t.fst, opposite  (t.snd))
 
@@ -94,6 +114,20 @@ prefix:50 "◁◁" => all_backward
 
 variable {s₁ s₂ : List (Transition β)}
 
+@[blueprint "thm:all_bwd_of_append"
+ (statement := /-- Let $s₁, s₂$ two transition sequences. Then, $◁ ◁ s₁;s₂$ if and only if 
+ $◁ ◁ s₁ ∧ ◁ ◁ s₂$. -/)
+ (proof := /-- ($⇒ $) Suppose that $s = s₁;s₂$ is a transition sequence with all the transitions 
+ backward. By induction over the length of the sequence $s₁$:
+  \begin{itemize}
+   \item \textsf{Empty}. If $s₁ = ε$ we have that $s = ε ; s₂ = s₂$, and by hypothesis $◁ ◁ s$, then 
+   $◁ ◁ s₂$ and by Def. \ref{def:all_backward} $◁ ◁ ε$ is truth. Therefore, $◁ ◁ s₁ ∧ ◁ ◁ s₂$.
+   \item \textsf{Inductive step}. If $s₁ = t;s'$ with $◁ ◁ (s';s₂)$ implies $◁ ◁ s'∧ ◁ ◁ s₂$, then
+     $◁ ◁ (t;s;s₂)$ implies that $◁ t$ and therefore $◁ ◁ (t;s') ∧ ◁ ◁ s₂$.
+  \end{itemize}
+  ($\Leftarrow$) By induction over the length on the sequence $s₁$.-/)
+  (proofUses := ["def:all_backward"] )
+  ]
 theorem all_bwd_of_append : ◁◁(s₁ ++ s₂) ↔ ◁◁s₁ ∧ ◁◁s₂ := by
   apply Iff.intro
   · intro h
@@ -107,6 +141,12 @@ theorem all_bwd_of_append : ◁◁(s₁ ++ s₂) ↔ ◁◁s₁ ∧ ◁◁s₂ :
     | cons _ _ tl_ih =>
       specialize tl_ih ⟨h.left.right, h.right⟩; exact ⟨h.left.left, tl_ih⟩
 
+@[blueprint "thm:all_fwd_of_append"
+ (statement := /-- Let $s₁, s₂$ two transition sequences. Then, $▷▷ s₁;s₂$ if and only if 
+ $▷ ▷ s₁ ∧ ▷ ▷ s₂$. -/)
+ (proof := /-- Analousgly to Thm. \ref{thm:all_bwd_of_append}. -/)
+ (proofUses := ["def:all_forward"] )
+ ]
 theorem all_fwd_of_append : ▷▷(s₁ ++ s₂) ↔ ▷▷s₁ ∧ ▷▷s₂ := by
   apply Iff.intro
   · intro h
@@ -130,11 +170,23 @@ theorem rev_congr {t t' : Transition β} : t = t' → ↽t = ↽t' :=
   unfold reverse; rcases t with ⟨_, _ | _⟩; all_goals {unfold opposite ; simp_all only}
 
 -- Inverse transitions
+@[blueprint "def:inverse"
+ (title := /-- Inverse -/)
+ (statement := /-- Let be $t,t' ∈ β × \mathsf{Transition}$. The transition $t$ is \emph{inverse} of 
+ $t'$ if $t = ↽ t'$. We denote the inverse of two transitions $t,t'$ --in this order-- by $t ↽ ⇀ t'$. -/)
+ (uses := ["def:reverse"] )
+ (latexEnv := "definition")
+ ]
 def inverse (t t' : Transition β) : Prop :=
   t = ↽t'
 
 infix:50 " ↽⇀ " => inverse
 
+@[blueprint "thm:eq_of_reverse"
+ (statement := /-- Let $t,t'$ be two transitions in $β × \mathsf{Transition}$. Then, $t = t'$ if and 
+ only if $↽ t = ↽ t'$.-/)
+ (proof := /-- Immediatly by Def. \ref{def:inverse}. -/)
+ (proofUses := ["def:reverse"])]
 theorem eq_of_reverse {t t' : Transition β} : t = t' ↔ ↽t = ↽t' := by
   simp_all [reverse];
   constructor <;> {intros eq; cases t; cases t'; simp_all}
@@ -322,9 +374,9 @@ namespace ReversibleOcc
 open ReversibleNet ReversibleNet.TransitionType
 
 /-- ## Reversible occurrence
-A reversible ocurrence is a reversible and occurrence net.
-Given a reversible net `Reversible α β` and a prove of its occurrence, then
-we have a reversible occurrence net.
+A reversible occurrence is defined as a reversible net and an occurrence net. 
+Given a reversible net denoted as `Reversible α β`, and provided that we have a proof of 
+its occurrence, we can conclude that it constitutes a reversible occurrence net.
 -/
 
 @[ext]

@@ -8,6 +8,21 @@
 
 \input{../../.lake/build/blueprint/library/PetriNet.tex}
 
+\chapter*{Introduction}
+
+\section*{Abstract}
+
+Petri nets constitute a foundational model of concurrency,
+which makes their reversible counterparts particularly relevant. Reversible
+Petri nets have been used to investigate the relationships between different models of concurrency, such as process calculi and event structures.
+In this paper, we address the problem of mechanizing the theory of reversible Petri nets with causally consistent reversibility. Specifically, we
+present a full mechanization of reversible Occurrence Petri nets in the
+Lean proof assistant. We formally verify that this model satisfies causal-dependent reversibility by mechanizing the so-called parabolic lemma.
+
+\section*{About this document}
+
+This is a document with the formal statements about the Lean repository \url{github.com/DanielDavalos93/reversible-occ-nets}, and the blueprint \url{DanielDavalos93.github.io/reversible-occ-nets} which contains: blueprint pdf, blueprint web, dependency graph and the web documentation (Lean style).
+
 \chapter{Petri nets}
 
 \inputleanmodule{PetriNet.Nets}
