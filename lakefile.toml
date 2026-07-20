@@ -7,10 +7,12 @@ defaultTargets = ["PetriNet"]
 name = "LeanArchitect"
 git = "https://github.com/hanwenzhu/LeanArchitect.git"
 rev = "main"
+weak = true
 
 [[require]]
 name = "checkdecls"
 git = "https://github.com/PatrickMassot/checkdecls.git"
+weak = true
 
 [[require]]
 name = "«doc-gen4»"
@@ -20,11 +22,6 @@ rev = "v4.30.0-rc2"
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
-rev = "v4.30.0-rc2"
-
-[[require]]
-name = "«doc-gen4»"
-git = "https://github.com/leanprover/doc-gen4"
 rev = "v4.30.0-rc2"
 
 [[lean_lib]]
