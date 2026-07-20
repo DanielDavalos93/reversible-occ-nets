@@ -101,11 +101,14 @@ end Properties_for_parabolic
 -/
 @[blueprint "thm:parabolic"
  (title := /-- Parabolic lemma -/)
- (statement := /--Let $R$ be a reversible occurrence net, $m$ a reachable marking, and $m [[\omega⟫ m'$ a firing sequence. Then there exist two sequences of transitions, $\omega'$ and
+ (statement := /--Let $R$ be a reversible occurrence net, $m$ a reachable marking, and 
+ $m [[\omega⟫ m'$ a firing sequence. Then there exist two sequences of transitions, $\omega'$ and
   $\omega''$, such that $\omega'$ consists only of backward transitions, $\omega''$
   consists only of forward transitions, $\omega ≍  \omega';\omega''$,
   and $m [[\omega'; \omega''⟫ m'$. -/)
-  (proof := /-- By applying induction on the firing sequence. The base case when $m' = m$ is immediate. The inductive step applies the property of $≍ $ and the Lemma \ref{lem:parabolic_step_fwd}. -/)
+  (proof := /-- By applying induction on the firing sequence. The base case when $m' = m$ is 
+  immediate. The inductive step applies the property of $≍ $ and the 
+  Lemma \ref{lem:parabolic_step_fwd}.-/)
   (proofUses := ["lem:parabolic_step_fwd", "lem:concat_fs", "def:TrEq"])]
 theorem parabolic (MO : MarkedReversibleOccurrence α β)
     (rr : ⟨MO.toNet, MO.m₀⟩ ↝ m)

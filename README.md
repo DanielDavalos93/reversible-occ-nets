@@ -1,6 +1,7 @@
 # Reversible PT Nets in Lean Prover
 
-[![Lean Prover release - v4.30.0-rc2](https://img.shields.io/static/v1?label=leanprover&message=lean4&color=blue&logo=github)](https://github.com/leanprover/lean4/tree/v4.30.0-rc2 "Go to GitHub repo")
+[![Lean Prover release - v4.30.0-rc2](https://img.shields.io/static/v1?label=lean4&message=v4.30.0-rc2&color=blue&logo=github)](https://github.com/leanprover/lean4/tree/v4.30.0-rc2 "Go to GitHub repo")
+[![Mathlib4 release - v4.30.0-rc2](https://img.shields.io/static/v1?label=Mathlib4&message=v4.30.0-rc2&color=orange&logo=github)](https://github.com/leanprover-community/mathlib4/tree/v4.30.0-rc2 "Go to GitHub repo")
 
 This repository contains a full formalization of reversible ocurrence nets in [Lean Prover](https://lean-lang.org/). The organizational structure of the library's files is given by the next graph:
 

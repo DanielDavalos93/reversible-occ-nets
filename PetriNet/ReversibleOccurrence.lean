@@ -23,8 +23,10 @@ can be forward or backward in a net.
 -/
 @[blueprint "def:TransitionType"
  (title := /-- Transition Type -/)
- (statement := /-- Lets define the type \textsf{Transition $::=$ fwd | bwd}, where their elements are the forward direction for $\mathsf{fwd}$ and backward direction for $\mathsf{bwd}$. 
- Given a type for transition $\beta$, we define the set of reversible transitions as pairs $t_r ::= ⟨t,\mathsf{fwd}⟩ \mid ⟨t,\mathsf{bwd}⟩$ with $t ∈ β $. -/)
+ (statement := /-- Lets define the type \textsf{Transition $::=$ fwd | bwd}, where their 
+ elements are the forward direction for $\mathsf{fwd}$ and backward direction for $\mathsf{bwd}$.
+ Given a type for transition $\beta$, we define the set of reversible transitions as pairs 
+ $t_r ::= ⟨t,\mathsf{fwd}⟩ \mid ⟨t,\mathsf{bwd}⟩$ with $t ∈ β $. -/)
  (latexEnv := "definition")]
 inductive TransitionType
 | fwd : TransitionType
@@ -34,7 +36,7 @@ open TransitionType
 
 @[blueprint "def:opposite"
  (title := /-- Opposite -/)
- (statement := /-- For a transition with type $\mathsf{Transition}$ we define the \emph{opposite} of 
+ (statement := /-- For a transition with type $\mathsf{Transition}$ we define the \emph{opposite} of
  $t_t$ as 
  $$opposite(t_t) = 
  \begin{cases} 
@@ -94,7 +96,8 @@ prefix:max "↽" => reverse
 /-- `all_forward` states that all elements in the list are forward.
 -/
 @[blueprint "def:all_forward"
- (statement := /-- Let $s$ a sequence of transitions with types $β × \mathsf{Transition}$. We denote $▷\!▷ s$ if forall $t∈ s$, $▷t$; or if $s=ε$. -/)
+ (statement := /-- Let $s$ a sequence of transitions with types $β × \mathsf{Transition}$. 
+ We denote $▷\!▷ s$ if forall $t∈ s$, $▷t$; or if $s=ε$. -/)
  (uses := ["def:isFwd"])]
 def all_forward : (l : List (Transition β)) → Prop
   | []       =>  true
@@ -103,7 +106,8 @@ def all_forward : (l : List (Transition β)) → Prop
 /-- `all_backward` states that all elements in the list are backward.
 -/
 @[blueprint "def:all_backward"
- (statement := /-- Let $s$ a sequence of transitions with types $β × \mathsf{Transition}$. We denote $◁ \!◁ s$ if forall $t∈ s$, $◁ t$; or if $s=ε$. -/)
+ (statement := /-- Let $s$ a sequence of transitions with types $β × \mathsf{Transition}$. 
+ We denote $◁ \!◁ s$ if forall $t∈ s$, $◁ t$; or if $s=ε$. -/)
  (uses := ["def:isBwd"])]
 def all_backward : (l : List (Transition β)) → Prop
   | []       =>  true
@@ -120,7 +124,7 @@ variable {s₁ s₂ : List (Transition β)}
  (proof := /-- ($⇒ $) Suppose that $s = s₁;s₂$ is a transition sequence with all the transitions 
  backward. By induction over the length of the sequence $s₁$:
   \begin{itemize}
-   \item \textsf{Empty}. If $s₁ = ε$ we have that $s = ε ; s₂ = s₂$, and by hypothesis $◁ ◁ s$, then 
+   \item \textsf{Empty}. If $s₁ = ε$ we have that $s = ε ; s₂ = s₂$, and by hypothesis $◁ ◁ s$, then
    $◁ ◁ s₂$ and by Def. \ref{def:all_backward} $◁ ◁ ε$ is truth. Therefore, $◁ ◁ s₁ ∧ ◁ ◁ s₂$.
    \item \textsf{Inductive step}. If $s₁ = t;s'$ with $◁ ◁ (s';s₂)$ implies $◁ ◁ s'∧ ◁ ◁ s₂$, then
      $◁ ◁ (t;s;s₂)$ implies that $◁ t$ and therefore $◁ ◁ (t;s') ∧ ◁ ◁ s₂$.
@@ -173,7 +177,8 @@ theorem rev_congr {t t' : Transition β} : t = t' → ↽t = ↽t' :=
 @[blueprint "def:inverse"
  (title := /-- Inverse -/)
  (statement := /-- Let be $t,t' ∈ β × \mathsf{Transition}$. The transition $t$ is \emph{inverse} of 
- $t'$ if $t = ↽ t'$. We denote the inverse of two transitions $t,t'$ --in this order-- by $t ↽ ⇀ t'$. -/)
+ $t'$ if $t = ↽ t'$. We denote the inverse of two transitions $t,t'$ --in this order-- by $t ↽ ⇀ t'$.
+ -/)
  (uses := ["def:reverse"] )
  (latexEnv := "definition")
  ]
@@ -309,7 +314,8 @@ variable [DecidableEq α]
 variable {m m' : Multiset α}
 
 @[blueprint "thm:inverse_enabled_after_firing"
- (statement := /-- For a reversible net $R$, if $m [[t]]$ and $m [[t⟩ m'$ then there is a transition $t'$, which $t' ↽⇀ t$ and $m'[[t']]$.-/)
+ (statement := /-- For a reversible net $R$, if $m [[t]]$ and $m [[t⟩ m'$ then there is a 
+ transition $t'$, which $t' ↽⇀ t$ and $m'[[t']]$.-/)
  (hasProof := false)
  (uses := ["def:Reversible"])]
 theorem inverse_enabled_after_firing (e : m 〚t〛⦃R⦄) (f : m 〚e⟩⦃R.toNet⦄ m') :
@@ -393,7 +399,9 @@ attribute [coe] ReversibleOccurrence.toReversible
 
 @[blueprint "def:MarkedReversibleOccurrence"
  (title := /-- Marked reversible occurrence net -/)
- (statement := /-- A tuple $MO = (R,m₀)$ is \emph{marked reversible occurrence} if $R$ is a reversible net and (\textsf{fwd\_subnet } $R,m₀$) is marked occurrence, where \textsf{fwd\_subnet} returns the forward subnet of a reversing net.-/)
+ (statement := /-- A tuple $MO = (R,m₀)$ is \emph{marked reversible occurrence} if $R$ is a 
+ reversible net and (\textsf{fwd\_subnet } $R,m₀$) is marked occurrence, where \textsf{fwd\_subnet}
+ returns the forward subnet of a reversing net.-/)
  (uses := ["def:MarkedNet", "def:is_marked_occurrence"])
  (latexEnv := "definition")]
 structure MarkedReversibleOccurrence α β extends Reversible α β where
@@ -521,7 +529,7 @@ variable [DecidableEq α]
 
 @[blueprint "lem:loop"
  (title := /-- Loop -/)
- (statement := /-- Let $t,t' ∈ β × Transition$ two reversing transitions, i.e., $t↽ ⇀ t'$. Then,  
+ (statement := /-- Let $t,t' ∈ β × Transition$ two reversing transitions, i.e., $t↽ ⇀ t'$. Then,
  $$(∃ e, m[[e⟩ m') \Longleftrightarrow (∃ e, m'[[e⟩ m)$$ -/)
  (hasProof := false)
  (proofUses := ["lemm:cancelation", "thm:inverse_enabled_after_firing"])
@@ -545,7 +553,9 @@ lemma loop (i : t ↽⇀ t') :
 @[blueprint "thm:backtracking"
  (title := /-- Backtracking -/)
  (statement := /-- If $(∃ s, m[[s⟫ m')$ then $(∃ s, m'[[s⟫ m).$ -/)
- (proof := /-- By induction over the length of a sequence $s$. By applying the Lemma \ref{lem:loop} to the step case $t;s$ on $s$, we can obtain a witness $s;↽ t$ and apply the respective concatenation (Lemma \ref{lem:concat_fs}) and we have the firing sequence as expected. -/)
+ (proof := /-- By induction over the length of a sequence $s$. By applying the Lemma \ref{lem:loop}
+ to the step case $t;s$ on $s$, we can obtain a witness $s;↽ t$ and apply the respective 
+ concatenation (Lemma \ref{lem:concat_fs}) and we have the firing sequence as expected. -/)
  (proofUses := ["lem:loop", "lem:concat_fs"])]
 theorem backtracking : (∃ s, m〚s⟩⟩⦃RO.toNet⦄ m') → (∃ s, m'〚s⟩⟩⦃RO.toNet⦄ m) := by
     rintro ⟨s, fs⟩

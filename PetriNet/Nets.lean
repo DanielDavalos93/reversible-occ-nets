@@ -46,8 +46,11 @@ and the condition `∀ t , pre t ≠ ∅ ∧ post t ≠ ∅`.
 
 @[blueprint "def:net"
  (title := /-- Net -/)
- (statement := /-- A \emph{net} $N$ is a tuple $N = (\alpha, \beta, \bullet{\_}, \bullet{\_})$, where $\alpha$ is a nonempty set of places, $\beta$ is the set of transitions, and $•{\_}, {\_}•: \beta →  ℕ ^{\alpha}$ assign source and target to each transition.
-We consider only nets in which every transition both consumes and produces, i.e., $•t ≠ ∅ $ and $t• ≠ ∅$  for all $t∈ β$. -/),
+ (statement := /-- A \emph{net} $N$ is a tuple $N=(\alpha, \beta, \bullet{\_}, \bullet{\_})$,
+ where $\alpha$ is a nonempty set of places, $\beta$ is the set of transitions, and
+ $•{\_}, {\_}•: \beta →  ℕ ^{\alpha}$ assign source and target to each transition.
+We consider only nets in which every transition both consumes and produces, i.e., $•t ≠ ∅$
+and $t• ≠ ∅$  for all $t∈ β$. -/),
 ext]
 structure Net (α : Type) (β : Type) where
   pre : β → Multiset α
@@ -83,14 +86,17 @@ end ExampleNetN₁
 
 @[blueprint "def:preset_p"
  (title := /--Preset for places. -/)
- (statement := /-- A \emph{preset for places} is a function that take a net $N$, a place $p$ and return the set $\{t \mid p ∈ t•\}$, where the postset function is defined in Definition \ref{def:net}. -/)
+ (statement := /-- A \emph{preset for places} is a function that take a net $N$, a place $p$ and
+ return the set $\{t \mid p ∈ t•\}$, where the postset function is defined in Definition
+ \ref{def:net}. -/)
  (uses := ["def:net"])]
 def presetₚ (N : Net α β) (p : α) : Set β :=
   {t | p ∈ N.post t}
 
 @[blueprint "def:preset_t"
  (title := /--Preset for transitions. -/)
- (statement := /-- A \emph{preset for transitions} is a function that take a net $N$, a transition $t$ and return the multiset $•t$. -/)
+ (statement := /-- A \emph{preset for transitions} is a function that take a net $N$, a transition
+ $t$ and return the multiset $•t$. -/)
  (uses := ["def:net"]),
  simp]
 def presetₜ (N : Net α β) (t : β) : Multiset α :=
@@ -101,7 +107,10 @@ notation:max "•⦃" N "⦄" t:max => presetₜ ↑N t
 
 @[blueprint "def:postset_p"
  (title := /--Postset for places. -/)
- (statement := /-- A \emph{postset for places} is a function that take a net $N$, a place $p$ and return the set $\{t | p ∈ •t \}$, where the preset function is defined in Definition \ref{def:net}. -/)
+ (statement := /-- A \emph{postset for places} is a function that take a net $N$, a place $p$ and
+ return the set $\{t | p ∈ •t \}$, where the preset function is defined in Definition
+ \ref{def:net}.
+ -/)
  (uses := ["def:net", "def:preset_t"])
  ]
 def postsetₚ (N : Net α β) (p : α) : Set β :=
@@ -109,9 +118,11 @@ def postsetₚ (N : Net α β) (p : α) : Set β :=
 
 @[blueprint "def:postset_t"
  (title := /--Postset for transitions. -/)
- (statement := /-- A \emph{postset for transitions} is a function that take a net $N$, a transition $t$ and return the multiset $t•$.
+ (statement := /-- A \emph{postset for transitions} is a function that take a net $N$, a transition
+ $t$ and return the multiset $t•$.
 
- The notation for preset of places or transition are written as $\bullet_{ \{\!\{ N \}\!\} }t$, but in this file we'll use only the short notation $•t$. -/)
+ The notation for preset of places or transition are written as $\bullet_{ \{\!\{ N \}\!\} }t$, but
+ in this file we'll use only the short notation $•t$. -/)
  (uses := ["def:net"]),
  simp]
 def postsetₜ (N : Net α β) (t : β) : Multiset α :=
@@ -193,7 +204,11 @@ Given a multiset `m`, `enable m` returns the set of transitions that are enabled
 -/
 @[blueprint "def:is_enabled"
  (title := /-- Enabled transition -/)
- (statement := /-- Given a net $N$ and a multiset $m$, a verificator of enabled transition is a function $\textsf{is\_enabled}:N → \textsf{Multiset} → β → \textsf{Prop}$ that verifies if $m ≤ •t$. We denote $\textsf{is\_enabled N m t}$ as $m[[t]]_{ \{\!\{ N\}\!\} }$. \footnote{In this documentation we avoid the subscript notation, and instead we write only $m[[t]]$.}-/)
+ (statement := /-- Given a net $N$ and a multiset $m$, a verificator of enabled transition is a
+ function $\textsf{is\_enabled}:N → \textsf{Multiset} → β → \textsf{Prop}$ that verifies if 
+ $m ≤ •t$. We denote $\textsf{is\_enabled N m t}$ as $m[[t]]_{ \{\!\{ N\}\!\} }$. 
+ \footnote{In this documentation we avoid the subscript notation, and instead we write only 
+ $m[[t]]$.}-/)
  (uses := ["def:net", "def:preset_t"])]
 def is_enabled (N : Net α β) (m : Multiset α) (t : β) : Prop := •⦃N⦄ t ≤ m
 
@@ -223,7 +238,9 @@ def deadlock (N : Net α β) (m : Multiset α) : Prop := IsEmpty (enabled N m)
 
 /-- Firing -/
 @[blueprint "def:marking_after_firing"
- (statement := /-- Given a net $N$, a transition $t$ and a prove that $t$ is enabled at $m$, the function \textsf{marking\_after\_firing N m e} returns the multiset applied at $m$ on $t$, which is $m - •t + t•$. -/)
+ (statement := /-- Given a net $N$, a transition $t$ and a prove that $t$ is enabled at $m$, 
+ the function \textsf{marking\_after\_firing N m e} returns the multiset applied at $m$ on $t$, 
+ which is $m - •t + t•$. -/)
  (uses := ["def:is_enabled", "def:postset_t", "def:preset_t"]),
 simp]
 def marking_after_firing (N : Net α β) (m : Multiset α) (_ : m 〚t〛⦃N⦄) : Multiset α :=
@@ -245,14 +262,18 @@ example : marking_after_firing N₁ {a, b, c} t₁_enabled  = {c, d} := by
 
 @[blueprint "def:is_firing"
  (title := /-- Firing -/)
- (statement := /-- Given a net $N$, \textsf{is\_firing : N → Multiset $\alpha$ → h → Multiset $\alpha$ → \textsf{Prop}} checks if a firing on a multiset $m$ by $t$ is equal to another multiset $m'$, i.e., if $m[[t⟩ = m'$. We denote this only by $m[[t⟩m'$-/)
+ (statement := /-- Given a net $N$, \textsf{is\_firing : N → Multiset $\alpha$ → h → 
+ Multiset $\alpha$ → \textsf{Prop}} checks if a firing on a multiset $m$ by $t$ is equal to 
+ another multiset $m'$, i.e., if $m[[t⟩ = m'$. We denote this only by $m[[t⟩m'$-/)
  (uses := ["def:is_enabled", "def:marking_after_firing"])]
 def is_firing (N : Net α β) (m : Multiset α) (h : m 〚t〛⦃N⦄) (m' : Multiset α) : Prop :=
   marking_after_firing N m h = m'
 
 @[blueprint "lem:is_firing_of_enabled"
- (statement := /-- Let $N$ be a net, $t$ a transition and $m$ a multiset, then $m [[t⟫ (m - •t + t•)$. -/)
- (proof := /-- It is immediate by Definition \ref{def:is_firing} and Definitin \ref{def:marking_after_firing}.-/)
+ (statement := /-- Let $N$ be a net, $t$ a transition and $m$ a multiset, then 
+ $m [[t⟫ (m - •t + t•)$. -/)
+ (proof := /-- It is immediate by Definition \ref{def:is_firing} and Definition 
+ \ref{def:marking_after_firing}.-/)
  (uses := ["def:is_firing", "def:marking_after_firing"])
  (proofUses := ["def:is_firing", "def:marking_after_firing"])]
 lemma is_firing_of_enabled (e : m 〚t〛⦃N⦄) : is_firing N m e (m - •⦃N⦄ t +  t•⦃N⦄) := by
@@ -267,10 +288,16 @@ example : {a,b,c} 〚t₁_enabled⟩⦃N₁⦄ {d,c} := by
 
 @[blueprint "def:firing_sequence"
  (title := /-- Firing sequence -/)
- (statement := /-- \texttt{firing\_sequence N m ls m'} is the concatenation of sequences, where $ls$ is the sequence of transitions, $m$ is the initial marking (Definition \ref{def:initial}) and $m'$ the final marking of the sequence. We denote for $s=ε$ for a empty sequence, in Lean this is an empty list, we denote for \textsf{';'} the concatenation of lists. Therefore, a firing sequence is defined inductively as
+ (statement := /-- \texttt{firing\_sequence N m ls m'} is the concatenation of sequences, where 
+ $ls$ is the sequence of transitions, $m$ is the initial marking (Definition \ref{def:initial}) 
+ and $m'$ the final marking of the sequence. We denote for $s=ε$ for a empty sequence, in Lean 
+ this is an empty list, we denote for \textsf{';'} the concatenation of lists. Therefore, a firing 
+ sequence is defined inductively as
 \begin{itemize}
   \item \textsf{Empty.} $m [[ε⟫ m$
-  \item \textsf{Inductive step.} For a sequence $t;s$ where $t$ is a transition and $s$ is a transition sequence, $m[[t;s⟫ m'$ is a firing sequence if there is $m''$ such that $m[[t⟩m''$ is firing and $m''[[s⟫ m'$ is a firing sequence.
+  \item \textsf{Inductive step.} For a sequence $t;s$ where $t$ is a transition and $s$ is a 
+  transition sequence, $m[[t;s⟫ m'$ is a firing sequence if there is $m''$ such that $m[[t⟩m''$ is 
+  firing and $m''[[s⟫ m'$ is a firing sequence.
 \end{itemize}
  -/)
  (uses := ["def:is_enabled", "def:is_firing"])
@@ -347,7 +374,8 @@ example : {a,b} 〚[t₁]⟩⟩⦃N₁⦄ {d} := by
 
 @[blueprint "lem:firing_deterministic"
  (title := /-- Firing deterministic -/)
- (statement := /-- For a net $N$ and a transition $t$ enabled at $m$ (where $e$ is a proof that it is enabled), if $m [[t⟩ m'$ and $m [[t⟩ m''$ then $m' = m''$.  -/)
+ (statement := /-- For a net $N$ and a transition $t$ enabled at $m$ (where $e$ is a proof that it 
+ is enabled), if $m [[t⟩ m'$ and $m [[t⟩ m''$ then $m' = m''$.  -/)
  (uses := ["def:is_firing"])
  (proof := /-- Immediate by unfolding Definition \ref{def:is_firing}. -/)
  (proofUses := ["def:is_firing"])
@@ -364,7 +392,8 @@ lemma target_of_empty_fs (fs : m 〚[]⟩⟩⦃N⦄ m') : m' = m :=
   by rcases fs; rfl
 
 @[blueprint "lem:tail_of_fs"
- (statement := /-- Let $t$ be a transition and $s$ a sequence (note that $t;s$ is a sequence), $m,m'$ two multisets and $m[[ t;s ⟫ m'$, then there exist a multiset $m''$ such that $m'' [[ s⟫ m$. -/)
+ (statement := /-- Let $t$ be a transition and $s$ a sequence (note that $t;s$ is a sequence), 
+ $m,m'$ two multisets and $m[[ t;s ⟫ m'$, then there exist a multiset $m''$ such that $m'' [[ s⟫ m$. -/)
  (hasProof := false)
  (proofUses := ["def:firing_sequence"])
  (latexEnv := "lemma")]
@@ -373,7 +402,8 @@ lemma tail_of_fs (fs : m 〚t :: ts⟩⟩⦃N⦄ m') : ∃ m'', m'' 〚ts⟩⟩�
   | @step _ _ _ m'' _ _ _ fs => exact ⟨m'', fs⟩
 
 @[blueprint "lem:head_of_fs"
- (statement := /-- Let $t$ be a transition, $s$ a sequence of transitions, $m,m'$ two multisets, and $m[[t;s ⟫ m'$. Then, there exist a multiset $m''$ such that $m[[t⟩ m''$.-/)
+ (statement := /-- Let $t$ be a transition, $s$ a sequence of transitions, $m,m'$ two multisets, 
+ and $m[[t;s ⟫ m'$. Then, there exist a multiset $m''$ such that $m[[t⟩ m''$.-/)
  (hasProof := false)
  (latexEnv := "lemma")]
 lemma head_of_fs (fs : m 〚t :: ts⟩⟩⦃N⦄ m') :
@@ -394,8 +424,10 @@ lemma concat_fs (h1 : m 〚ts₁⟩⟩⦃N⦄ m') (h2 : m' 〚ts₂⟩⟩⦃N⦄
 
 @[blueprint "lem:append_split_of_fs"
  (title := /-- Append split of firing sequence -/)
- (statement := /-- Let $m[[s_1;s_2⟫ m'$ be a firing sequences, then there is a multiset $m''$ such that $m[[s_1⟫ m''$ and $m''[[s_2⟫ m'$.-/)
- (proof := /-- By induction on the length of $s_1$, and by structural induction on the firing sequence for $s_2$. -/)
+ (statement := /-- Let $m[[s_1;s_2⟫ m'$ be a firing sequences, then there is a multiset $m''$ such 
+ that $m[[s_1⟫ m''$ and $m''[[s_2⟫ m'$.-/)
+ (proof := /-- By induction on the length of $s_1$, and by structural induction on the firing 
+ sequence for $s_2$. -/)
  (proofUses := ["def:firing_sequence"])
  (latexEnv := "lemma")]
 lemma append_split_of_fs (fs : m 〚ts₁ ++ ts₂⟩⟩⦃N⦄ m') :
@@ -466,7 +498,8 @@ lemma reach_after_firing_from_reach (r : is_reachable N m₀ m)
 
 
 @[ext, coe, blueprint "def:MarkedNet"
- (statement := /-- A \emph{marked net} is a tuple $M = (N,m₀)$, where $N$ is a net (Definition \ref{def:net}) and $m₀$ is the initial marking. -/)
+ (statement := /-- A \emph{marked net} is a tuple $M = (N,m₀)$, where $N$ is a net (Definition 
+ \ref{def:net}) and $m₀$ is the initial marking. -/)
  (uses := ["def:net"])]
 structure MarkedNet (α : Type) (β : Type) extends Net α β where
   m₀ : Multiset α
@@ -477,7 +510,8 @@ instance : Coe (MarkedNet α β) (Net α β) where
 
 @[blueprint "def:reachable"
  (title := /-- Reachable -/)
- (statement := /-- Given a marked net $M$ and a multiset $m$, \emph{reachable N m} return all the multisets that can be executed by sequences of firing enabled.
+ (statement := /-- Given a marked net $M$ and a multiset $m$, \emph{reachable N m} return all 
+ the multisets that can be executed by sequences of firing enabled.
  We denote a reachable for a marking $m$ of a net $N$ by $N \leadsto m$.-/)
  (uses := ["def:MarkedNet"])
 ]
@@ -490,7 +524,7 @@ notation:50 N:51 " ↝ " m:51  =>  m ∈ (reachable ↑N)
 -/
 @[blueprint "def:safe"
  (title := /-- Safe -/)
- (statement := /-- A marked net $M = (N, m₀)$ is \emph{safe} if for every multiset $m$, $M ↝ m$ 
+ (statement := /-- A marked net $M = (N, m₀)$ is \emph{safe} if for every multiset $m$, $M ↝ m$
  implies that $m$ has no duplicate. -/)
  (uses := ["def:MarkedNet"])]
 def safe (M : MarkedNet α β) : Prop :=
@@ -506,8 +540,11 @@ variable {t₁ t₂ : β} {m1 m2 : Multiset α}
 
 @[blueprint "lem:square"
  (title := /-- Square lemma -/)
- (statement := /-- Let $N$ a net, $m[[t_1⟩m_1$ and $m[[t_2⟩m_2$ two firings, and $•t₁ ∩ •t₂ = ∅ $. Then, there is a multiset $m'$ such that $m₁[[t₁⟩m'$ and $m₂ [[t₂⟩ m'$.-/)
- (proof := /-- It is suffices to take $m' = m - •t₁ + t₁• - •t₂ + t₂•$. To prove that $m₁[[t₁]]$ note that we can have $m₁ = m - •t₁ + t₁•$ after firing, and $•t₂ ≤ m - •t₁$. Analousgly with the enabled $m₂[[t₂]]$. -/)
+ (statement := /-- Let $N$ a net, $m[[t_1⟩m_1$ and $m[[t_2⟩m_2$ two firings, and $•t₁ ∩ •t₂ = ∅ $.
+ Then, there is a multiset $m'$ such that $m₁[[t₁⟩m'$ and $m₂ [[t₂⟩ m'$.-/)
+ (proof := /-- It is suffices to take $m' = m - •t₁ + t₁• - •t₂ + t₂•$. To prove that $m₁[[t₁]]$ 
+ note that we can have $m₁ = m - •t₁ + t₁•$ after firing, and $•t₂ ≤ m - •t₁$. Analousgly with the 
+ enabled $m₂[[t₂]]$. -/)
  (uses := ["def:is_enabled", "def:is_firing"])]
 lemma square (N : Net α β)
     {e₁ : m 〚t₁〛⦃N⦄} {e₂ : m 〚t₂〛⦃N⦄}

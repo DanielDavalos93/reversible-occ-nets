@@ -22,7 +22,11 @@ For a reversible net `R` we denote this relation as `t ≍⦃R⦄ t'`.
 -/
 @[blueprint "def:TrEq"
  (title := /-- Transition equivalence -/)
- (statement := /-- The statement of the lemma requires a formal notion of \emph{equivalent firing sequences}, which is the smallest congruence\footnote{A relation $R$ over sequences is a \textbf{congruence} if it is an equivalence relation closed by concatenation, i.e.,  $s_1 R s_2$ and $s_3 R s_4$ implies $s_1;s_2 R s_2;s_4$ for all $s_1, s_2, s_3$ and $s_4$.} $\asymp$ on transition sequences closed under the following rules:
+ (statement := /-- The statement of the lemma requires a formal notion of \emph{equivalent 
+ firing sequences}, which is the smallest congruence\footnote{A relation $R$ over sequences 
+ is a \textbf{congruence} if it is an equivalence relation closed by concatenation, i.e.,  
+ $s_1 R s_2$ and $s_3 R s_4$ implies $s_1;s_3 R s_2;s_4$ for all $s_1, s_2, s_3$ and $s_4$.} 
+ $\asymp$ on transition sequences closed under the following rules:
 \begin{itemize}
   \item[(i)] $t;t' ≍  t';t$ if $t \textsf{ co } t'$, 
   \item[(ii)] $t;↽ t ≍  ε$, and 

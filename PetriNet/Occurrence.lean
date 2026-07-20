@@ -57,8 +57,8 @@ section Immediate
 
 @[blueprint "def:immediate"
  (title := /-- Immediate dependency -/)
- (statement := /-- Let $N$ be a net. The \emph{immediate dependency relation} $<_N ⊆ (α ∪ β) × (α ∪ β)$
-is  defined by the set
+ (statement := /-- Let $N$ be a net. The \emph{immediate dependency relation} 
+ $<_N ⊆ (α ∪ β) × (α ∪ β)$ is  defined by the set
   \begin{equation}\label{eq:immediate_dependency}
   \{ (x,y) \mid (y ∈ β ∧  x ∈  •y) ∨ (x ∈ β ∧  y ∈ x•)\}
 \end{equation}-/ )
@@ -172,7 +172,8 @@ end Causal
 section Preorder
 
 @[blueprint "def:preorder"
- (statement := /-- A relation $≼ _N$ is \emph{causal preorder} if it is the reflexive-transitive closure of $<_N$ (from Definition \ref{def:immediate}).-/)
+ (statement := /-- A relation $≼ _N$ is \emph{causal preorder} if it is the reflexive-transitive 
+ closure of $<_N$ (from Definition \ref{def:immediate}).-/)
  (uses := ["def:immediate"])]
 def preorder (N : Net α β) : (α ⊕ β) → (α ⊕ β) → Prop :=
   ReflTransGen (immediate N)
@@ -216,7 +217,8 @@ lemma flow_of_pre_and_flow (ha : inr t ≼⦃N⦄ inl a) (hb : b ∈ •⦃N⦄t
   exact .trans (.tail .refl h) ha
 
 @[blueprint "lem:not_cause_of_minimal"
- (statement := /-- Let $N$ be a net and $a ∈ α$ a place. If $a ∈ \mathsf{minimal}(a)$ and $x ≠ a$ then $¬ (x≼ a)$. -/)
+ (statement := /-- Let $N$ be a net and $a ∈ α$ a place. If $a ∈ \mathsf{minimal}(a)$ and $x ≠ a$ 
+ then $¬ (x≼ a)$. -/)
  (hasProof := false)]
 lemma not_cause_of_minimal (ha : a ∈ minimal N) (neq : x ≠ inl a) : ¬ (x ≼⦃N⦄ inl a) := by
   intro h
@@ -234,7 +236,8 @@ open Flow
 section Conflict
 
 @[blueprint "def:immediate_conflict"
- (statement := /-- Two different transtions $t,t'$ are in \emph{immediate conflict} if $•t ∩ •t ≠ ∅ $. Let's denote this relation as $t ♯₀ t'$. -/ )
+ (statement := /-- Two different transtions $t,t'$ are in \emph{immediate conflict} if $•t ∩ •t ≠ ∅$.
+ Let's denote this relation as $t ♯₀ t'$. -/ )
 ]
 def immediate_conflict (N : Net α β) (t t' : β) : Prop :=
   t ≠ t' ∧ ¬ (Disjoint (•⦃N⦄ t) (•⦃N⦄ t'))
@@ -243,7 +246,8 @@ notation:60 l:61 " #₀⦃" N:61 "⦄ " r:61 => immediate_conflict ↑N l r
 
 @[blueprint "def:conflict"
  (title := /-- Conflict -/)
- (statement := /-- Two elements $x,y ∈ α ∪ β$ are in \emph{conflict} if there exist two transtions $t,t'$ that $t≼ x$, $t'≼ y$ and $t ♯₀ t'$. We denote a conflict relation of $x,y$ as $x ♯ y$. -/)
+ (statement := /-- Two elements $x,y ∈ α ∪ β$ are in \emph{conflict} if there exist two transtions 
+ $t,t'$ that $t≼ x$, $t'≼ y$ and $t ♯₀ t'$. We denote a conflict relation of $x,y$ as $x ♯ y$. -/)
  (uses := ["def:preorder", "def:immediate_conflict"])
 ]
 def conflict (N : Net α β) (x y : α ⊕ β) : Prop :=
@@ -317,7 +321,8 @@ A place has a backward conflict it has more that one transition in its preset.
 -/
 @[blueprint "def:backward_conflict"
  (title := /-- Backward conflict -/)
- (statement := /--A place $a$ has a \emph{backward conflict} if it is produced by two distinct transitions, i.e., $\exists t₁, t₂, (t₁ ≠ t₂) ∧ (a ∈ t₁• ) ∧ (p ∈ t₂•)$.-/)
+ (statement := /--A place $a$ has a \emph{backward conflict} if it is produced by two distinct 
+ transitions, i.e., $\exists t₁, t₂, (t₁ ≠ t₂) ∧ (a ∈ t₁• ) ∧ (p ∈ t₂•)$.-/)
 ]
 def backward_conflict (N : Net α β) (a : α) : Prop :=
   ∃ t t' : β, t ≠ t' ∧ inr t <⦃N⦄ inl a  ∧ inr t' <⦃N⦄ inl a
@@ -330,7 +335,8 @@ A net is acyclic if the causality relation is so.
 -/
 @[blueprint "def:acyclic"
  (title := /-- Acyclicity -/)
- (statement := /-- A net is \emph{acyclic} if its causal relation is irreflexive, i.e., there is no $x ∈ α ∪ β$ such that $x ≺_N x$.-/)]
+ (statement := /-- A net is \emph{acyclic} if its causal relation is irreflexive, i.e., there is 
+ no $x ∈ α ∪ β$ such that $x ≺_N x$.-/)]
 def acyclic (N : Net α β) : Prop :=
   ∀ x : α ⊕ β, ¬(x ≺⦃N⦄ x)
 
@@ -349,13 +355,15 @@ section OccurrenceNet
 
 @[blueprint "def:is_occurrence"
  (title := /-- Occurrence net -/)
- (statement := /-- A marked net $(N,m_0)$ is an \emph{occurrence net} if it satisfies the following statements:
+ (statement := /-- A marked net $(N,m_0)$ is an \emph{occurrence net} if it satisfies the following
+ statements:
 \begin{enumerate}
   \item $N$ is acyclic;
   \item there is no self-conflict, i.e., $¬(t ♯ t)$ for all transition $t$;
   \item there is no backward conflict;
   \item $N$ is 1-safe, i.e., marking is a set;
-  \item the initial marking is the set of initial places, i.e., $m₀$ is minimal (Definition \ref{def:minimal}).
+  \item the initial marking is the set of initial places, i.e., 
+  	$m₀$ is minimal (Definition \ref{def:minimal}).
 \end{enumerate}-/)
  (uses := ["def:MarkedNet", "def:acyclic", "def:backward_conflict", "def:minimal"])]
 structure is_occurrence (N : Net α β) where
@@ -367,7 +375,8 @@ structure is_occurrence (N : Net α β) where
 
 @[blueprint "def:is_marked_occurrence"
  (title := /-- Marked occurrence net -/)
- (statement := /-- A marked net $(N,m₀)$ is called \emph{marked ocurrence} if $N$ is occurrence, $m₀$ has no duplicates and each place $p ∈ m₀$ implies $p ∈ \textsf{minimal }N$.-/)
+ (statement := /-- A marked net $(N,m₀)$ is called \emph{marked ocurrence} if $N$ is occurrence, 
+ $m₀$ has no duplicates and each place $p ∈ m₀$ implies $p ∈ \textsf{minimal }N$.-/)
  (uses := ["def:MarkedNet", "def:is_occurrence", "def:minimal"])
 ]
 structure is_marked_occurrence (M : MarkedNet α β) : Prop where
@@ -555,7 +564,9 @@ they are not in conflict, and they do not causally depend on each other.
 -/
 @[blueprint "def:concurrent"
  (title := /-- Concurrency -/)
- (statement := /-- Two different elements $x,y∈ α ∪ β$ are \emph{concurrent} in $N$ if $¬ (x≼ y)$, $¬ (y ≼ x)$ and $¬ (x ♯ y)$. We denote the concurrency between these elements as $x \textsf{ co } y$. -/)
+ (statement := /-- Two different elements $x,y∈ α ∪ β$ are \emph{concurrent} in $N$ if $¬ (x≼ y)$, 
+ $¬ (y ≼ x)$ and $¬ (x ♯ y)$. We denote the concurrency between these elements as $x\textsf{ co }y$.
+ -/)
  (uses := ["def:preorder", "def:conflict"])
  ]
 def concurrent (N : Net α β) (x y : α ⊕ β) : Prop :=
@@ -610,7 +621,8 @@ def concurrent_set (N : Net α β) (X : Multiset (α ⊕ β)) : Prop :=
 
 @[blueprint "def:Concurrent"
  (title := /-- Concurrent multiset -/)
- (statement := /-- A multiset $m$ is concurrent in $N$ if it no has duplicate and  $$∀ x, y ∈  α, (x ∈ m) ⇒  (y ∈ m) ⇒  x ≠ y ⇒  x\textsf{ co }y.$$
+ (statement := /-- A multiset $m$ is concurrent in $N$ if it no has duplicate and 
+ $$∀ x, y ∈  α, (x ∈ m) ⇒  (y ∈ m) ⇒  x ≠ y ⇒  x\textsf{ co }y.$$
  We'll denote the concurrency of a multiset $m$ by $\textsf{Concurrent $m$}$.-/)
  (uses := ["def:concurrent"])]
 def Concurrent (N : Net α β) (m : Multiset α) : Prop :=
@@ -858,7 +870,8 @@ lemma nodup_add_pre_of_conc_add_post (O : is_occurrence N) (C : Concurrent N (m 
     exact nodup_add.mpr  ⟨ndm, O.set_preset t, disjoint_add_pre_of_conc_add_post C⟩
 
 @[blueprint "lem:concurrent_of_le"
- (statement := /-- Let be $N$ an occurrence net, \textsf{Concurrent $N$ $m$} and $m' ≤ m$, then \textsf{Concurrent $N$ $m'$}. -/)
+ (statement := /-- Let be $N$ an occurrence net, \textsf{Concurrent $N$ $m$} and $m' ≤ m$, 
+ then \textsf{Concurrent $N$ $m'$}. -/)
  (hasProof := false)
  (latexEnv := "lemma")]
 lemma concurrent_of_le [DecidableEq α] (C : Concurrent N m) (h : m' ≤ m) : Concurrent N m'  := by
@@ -869,7 +882,8 @@ lemma concurrent_of_le [DecidableEq α] (C : Concurrent N m) (h : m' ≤ m) : Co
     exact c (mem_of_le h hx) (mem_of_le h hy) en
 
 @[blueprint "lem:conc_pre_of_conc_post"
- (statement := /-- Let be $N$ an occurrence net and \textsf{Concurrent $N$ $(m + t•)$}, then \textsf{Concurrent $N$ $(m + •t)$}. -/)
+ (statement := /-- Let be $N$ an occurrence net and \textsf{Concurrent $N$ $(m + t•)$}, then 
+ \textsf{Concurrent $N$ $(m + •t)$}. -/)
  (hasProof := false)
  (proofUses := ["lem:concurrent_of_le"])
  (latexEnv := "lemma")]
@@ -896,7 +910,8 @@ lemma conc_pre_of_conc_post [DecidableEq α] (O : is_occurrence N) (C : Concurre
 end
 
 @[blueprint "lem:firing_preserves_concurrent"
- (statement := /-- Let $N$ be an occurrence net, $t$ an enabled transition at $m$ and $a,b$ two different places. If $\textsf{Concurrent $N$ $m$}$, $m [[t⟩ m'$ is a firing, and $a,b∈ m'$, then $a \textsf{ co }$b. -/)
+ (statement := /-- Let $N$ be an occurrence net, $t$ an enabled transition at $m$ and $a,b$ two 
+ different places. If $\textsf{Concurrent $N$ $m$}$, $m [[t⟩ m'$ is a firing, and $a,b∈ m'$, then $a \textsf{ co }$b. -/)
  (hasProof := false)
  (latexEnv := "lemma")]
 lemma firing_preserves_concurrent (O : is_occurrence N) (C : Concurrent N m) {e : •⦃N⦄t ≤ m}
@@ -920,7 +935,9 @@ lemma firing_preserves_concurrent (O : is_occurrence N) (C : Concurrent N m) {e 
     | inr hb'' => exact concurrent_from_same_postset O ne ha'' hb''
 
 @[blueprint "lem:firing_preserves_concurrency"
- (statement := /-- Let $N$ be an occurrence net and $t$ a transition enabled at $m$. If $\textsf{Concurrent $N$ $m$}$ and $m [[t⟩ m'$ is a firing, then $\textsf{Concurrent $N$ $m'$}$. -/)
+ (statement := /-- Let $N$ be an occurrence net and $t$ a transition enabled at $m$. 
+ If $\textsf{Concurrent $N$ $m$}$ and $m [[t⟩ m'$ is a firing, then $\textsf{Concurrent $N$ $m'$}$.
+ -/)
  (proofUses := ["def:Concurrent", "lem:firing_preserves_concurrent"])
  (hasProof := false)
  (latexEnv := "lemma")]
@@ -935,10 +952,14 @@ lemma firing_preserves_concurrency (O : is_occurrence N) (C : Concurrent N m) {e
   · exact firing_preserves_concurrent O C h
 
 @[blueprint "lem:firing_sequence_preserves_concurrent"
- (statement := /-- Let $N$ be an occurrence net and $s$ a transition sequence. If $N$ is concurrent at $m$ and $m [[s⟫ m'$ is a firing sequence, then $\textsf{Concurrent $N$ $m'$}$. -/)
+ (statement := /-- Let $N$ be an occurrence net and $s$ a transition sequence. If $N$ is concurrent 
+ at $m$ and $m [[s⟫ m'$ is a firing sequence, then $\textsf{Concurrent $N$ $m'$}$. -/)
  (proofUses := ["lem:target_of_empty_fs", "lem:firing_preserves_concurrency"])
- (proof := /-- The proof procedes by applying structural induction over the length of the sequence $s$. 
-  For the base case apply the Lemma \ref{lem:target_of_empty_fs} and is obtained that $m'=m$, so it is concurrent at $m'$ by hypothesis.
+ (proof := /-- The proof procedes by applying structural induction over the length of the sequence $s$.
+  
+  For the base case apply the Lemma \ref{lem:target_of_empty_fs} and is obtained that $m'=m$, so 
+  it's concurrent at $m'$ by hypothesis. 
+  
   For the step case, we can apply the inductive hypothesis over Lemma \ref{lem:firing_preserves_concurrency}.
  -/)
  (latexEnv := "lemma")]
@@ -974,9 +995,13 @@ lemma minimal_places_concurrent (MO : is_marked_occurrence M) : Concurrent M.toN
 
 @[blueprint "thm:occ_net_safe"
  (statement := /-- Every marked occurrence net $(N,m₀)$ is safe. -/)
- (proof := /-- A net is safe if for each multiset $m$ and sequence $s$, $m₀ [[s⟫ m$ implies that $m$ has no duplicate tokens. So, let $m$ be a multiset and $s$ a transition sequence. 
+ (proof := /-- A net is safe if for each multiset $m$ and sequence $s$, $m₀ [[s⟫ m$ implies that 
+ $m$ has no duplicate tokens. So, let $m$ be a multiset and $s$ a transition sequence. 
 
- We've proved (Lemma \ref{lem:minimal_places_concurrent}) that $m₀$ is concurrent in $N$, so it is enough to apply the Lemma \ref{lem:firing_sequence_preserves_concurrent} to the occurrence condition in the hypothesis $s$, firing sequence $m₀ [[s⟫ m$ and use the Lemma \ref{lem:minimal_places_concurrent}. -/)
+ We've proved (Lemma \ref{lem:minimal_places_concurrent}) that $m₀$ is concurrent in $N$, so it's
+ enough to apply the Lemma \ref{lem:firing_sequence_preserves_concurrent} to the occurrence 
+ condition in the hypothesis $s$, firing sequence $m₀ [[s⟫ m$ and use the 
+ Lemma \ref{lem:minimal_places_concurrent}.-/)
  (proofUses := ["lem:minimal_places_concurrent", "lem:firing_sequence_preserves_concurrent"])
  ]
 theorem occ_net_safe (MO : is_marked_occurrence M) : safe M := by

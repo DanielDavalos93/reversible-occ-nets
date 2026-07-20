@@ -19,7 +19,8 @@ variable {α β : Type}
 variable {t t' : Transition β} {m₀ m m' : Multiset α} {s : List (Transition β)}
 
 @[blueprint "def:no_rev_in_list"
- (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. We define $$t ∉ ^r := \forall t' ∈ s, ¬ (t ↽⇀ t').$$ -/)
+ (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. 
+ We define $$t ∉ ^r := \forall t' ∈ s, ¬ (t ↽⇀ t').$$ -/)
  (uses := ["def:TransitionType"])]
 def no_rev_in_list (t : Transition β) (ls : List (Transition β)) :=
   ∀ t' ∈ ls, ¬ (t ↽⇀ t')
@@ -27,7 +28,8 @@ def no_rev_in_list (t : Transition β) (ls : List (Transition β)) :=
 infix:50 " ∉ʳ " => no_rev_in_list
 
 @[blueprint "def:exists_rev_in_list"
- (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. We define $$t ∃^r := \exists t' ∈ s, (t ↽⇀ t').$$ -/)
+ (statement := /-- Let $t ∈ β$ a transition and $s$ a sequence of transitions of $β$. 
+ We define $$t ∃^r := \exists t' ∈ s, (t ↽⇀ t').$$ -/)
  (uses := ["def:TransitionType"])]
 def exists_rev_in_list (t : Transition β) (ls : List (Transition β)) :=
   ∃ t' ∈ ls, t ↽⇀ t'
@@ -212,7 +214,8 @@ lemma not_reverse_disjoint_post_pre₂ (MO : MarkedReversibleOccurrence α β)
   | inr nrev => exact nrev
 
 @[blueprint "lem:swap_fwd_bwd_pre_post_empty"
- (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $t$ and $'t$ two transitions with $t• ∩ •t' = ∅ $ and $¬(t ↽⇀ t')$. 
+ (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $t$ 
+ and $'t$ two transitions with $t• ∩ •t' = ∅ $ and $¬(t ↽⇀ t')$. 
  If $M ↝ m$ and $m [t;t'⟫ m'$, then $m [[t';t⟫ m'$.-/)
  (hasProof := false)
  (uses := ["def:MarkedReversibleOccurrence", "def:reachable", "def:firing_sequence"])
@@ -245,8 +248,10 @@ lemma swap_fwd_bwd_pre_post_empty (MO : MarkedReversibleOccurrence α β)
       (is_firing_of_enabled (is_enabled_from e₂')) (.empty _)
 
 @[blueprint "lem:swap_fwd_reverse_not_inverse"
- (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $t$ and $'t$ two transitions with $▷t$ (is forward transition) and $◁ t'$ (is backward transition).
- If $M ↝ m₀$, $¬ (t ↽⇀ t')$ and $m[[t;t'⟫ m'$ is a firing sequence, then we can have the swapped firing sequence between the transitions: $m [[t';t⟫ m'$.-/)
+ (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $t$ 
+ and $'t$ two transitions with $▷t$ (is forward transition) and $◁ t'$ (is backward transition).
+ If $M ↝ m₀$, $¬ (t ↽⇀ t')$ and $m[[t;t'⟫ m'$ is a firing sequence, then we can have the swapped 
+ firing sequence between the transitions: $m [[t';t⟫ m'$.-/)
  (hasProof := false)
  (proofUses := ["lem:swap_fwd_bwd_pre_post_empty"])
  (latexEnv := "lemma")]
@@ -272,8 +277,10 @@ a firing sequence that passes through the sequence `t :: ω`
 -/
 @[blueprint "lem:swapping"
  (title := /-- Swapping -/)
- (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $s$ a sequence and $t$ a transition with the condition $◁ ◁ s$ and $▷t$.
- If $M ↝ m₀$, $t ∉ s$ and $m[[t;s⟫ m'$ is a firing sequence, then we can have the swapped between the transition and all the backward sequence: $m [[s;t⟫ m'$. -/)
+ (statement := /-- Let $M = (N, m₀)$ a marked reversible occurrence net, $m$ a marking, $s$ a 
+ sequence and $t$ a transition with the condition $◁ ◁ s$ and $▷t$.
+ If $M ↝ m₀$, $t ∉ s$ and $m[[t;s⟫ m'$ is a firing sequence, then we can have the swapped between 
+ the transition and all the backward sequence: $m [[s;t⟫ m'$. -/)
  (hasProof := false)
  (proofUses := ["lem:swap_fwd_reverse_not_inverse", "lem:concat_fs"])
  (latexEnv := "lemma")]
