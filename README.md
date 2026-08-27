@@ -38,5 +38,6 @@ rev = "main"
 or `require petri_net from git "https://github.com/DanielDavalos93/reversible-occ-nets"` if you're using `likefile.lean`. Then run:
 ```
 lake exe cache get
+lake update
 lake build
 ```

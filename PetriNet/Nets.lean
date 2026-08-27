@@ -536,6 +536,9 @@ open Pl Tr
 def M₁ : MarkedNet Pl Tr :=  ⟨N₁, {a,b,c}⟩
 
 def M₂ : MarkedNet ℕ Tr₂ := ⟨N₂, {1,2,3}⟩
+
+end ExampleMarkedNet
+
 variable {t₁ t₂ : β} {m1 m2 : Multiset α}
 
 @[blueprint "lem:square"
@@ -573,5 +576,4 @@ lemma square (N : Net α β)
   · simp_all
     grind
 
-end ExampleMarkedNet
 end Nets
